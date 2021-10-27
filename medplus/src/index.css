@@ -1,0 +1,248 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+.background-image {
+    background-image: url('./images/background.PNG');
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 100vw;
+    height: 100vh;
+}
+
+.background-with-logo-image {
+    background-image: url('./images/background_with_logo.PNG');
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 100vw;
+    height: 100vh;
+}
+
+.landing-layout {
+    display: grid;
+    grid-template-areas:
+    " . . . "
+    " . button-container ."
+    " . . ." ;
+    grid-template-columns: auto, 50px, auto;
+    grid-template-rows: auto, 50%, auto;
+}
+
+.button-container {
+    grid-area: button-container;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    /*justify-content: space-around;*/
+    align-items: center;
+}
+
+.flex-justify-content-space-around {
+    justify-content: space-around;
+}
+
+.flex-justify-content-end {
+    justify-content: end;
+}
+
+.flex-justify-content-space-between {
+    justify-content: space-between;
+}
+
+.link-button {
+    display: flex;
+    background-color: rgb(144, 225, 251);
+    border-radius: 10px;
+    width: 300px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+    border: 0;
+}
+
+.no-bullet-points {
+    list-style: none;
+}
+
+/*******************************************************/
+
+.home-layout {
+    display: grid;
+    grid-template-areas: 
+    ".       .            .       .          ."
+    ".     title          .       .          ."
+    ".       .            .       .          ."
+    ". med-list-container . button-container ."
+    ".       .            .       .          ."
+    " nav-bar nav-bar nav-bar nav-bar nav-bar ";
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto 50% 10% 60px;
+}
+
+.med-list-container {
+    grid-area: med-list-container;
+}
+
+/*******************************************************/
+
+.check-box {
+    width: 20px;
+    height: 20px;
+}
+
+/*******************************************************/
+
+.nav-bar {
+    grid-area: nav-bar;
+    background-color: rgb(156, 156, 156);
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+/*******************************************************/
+
+.edit-layout {
+    display: grid;
+    grid-template-areas: 
+    ".           .        ."
+    ".         title      ."
+    ".           .        ."
+    ".    edit-container  ."
+    ".           .        ."
+    ".    add-new-button  ."
+    ".           .        ."
+    "nav-bar  nav-bar  nav-bar";
+    grid-template-columns: 10% 40% auto;
+    grid-template-rows: auto 10% auto 50% auto 10% auto 60px;
+}
+
+.edit-container {
+    grid-area: edit-container;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.edit-button {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.add-new-button {
+    grid-area: add-new-button;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+/*******************************************************/
+
+.add-med-layout {
+    display: grid;
+    grid-template-areas: 
+    ".           .        ."
+    ".         title      ."
+    ".           .        ."
+    ".    add-med-form    ."
+    ".           .        ."
+    "nav-bar  nav-bar  nav-bar";
+    grid-template-columns: 10% 70% auto;
+    grid-template-rows: auto 10% auto 50% auto 10% auto 60px;
+}
+
+.add-med-form {
+    grid-area: add-med-form;
+    background-color: rgb(144, 225, 251);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.add-med-input {
+    background-color: white;
+    border-radius: 10px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+
+    width: 90%;
+}
+
+.left-padding {
+    padding-left: 10px;
+}
+
+.hidden-submit-button {
+    width: 100%;
+    height: 100%;
+    border: hidden;
+    background-color: rgb(209, 209, 209);
+    border-radius: inherit;
+}
+
+.hidden-text-box {
+    outline: none;
+    border: hidden;
+    width: 100%;
+}
+
+/*******************************************************/
+
+.font-small {
+    font-weight: 600;
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+}
+
+.font-medium {
+    font-weight: 600;
+    font-size: 30px;
+    color: black;
+    text-decoration: none;
+}
+
+.font-large {
+    font-weight: 600;
+    font-size: 40px;
+    color: black;
+    text-decoration: none;
+}
+
+.font-very-large {
+    font-weight: 600;
+    font-size: 60px;
+    color: black;
+    text-decoration: none;
+}
