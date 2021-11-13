@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import { NavBar } from '../NavBar/NavBar';
+import NavBar from '../NavBar';
+import { withAuthorization } from '../Session';
 
 // TODO this should redirect to LandingPage if user is not logged in
 
@@ -56,4 +57,5 @@ function HomePage(){
     );
 }
 
-export { HomePage };
+const condition = authUser => !!authUser;
+export default withAuthorization(condition)(HomePage);

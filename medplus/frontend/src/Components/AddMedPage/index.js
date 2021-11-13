@@ -1,7 +1,7 @@
 import React from 'react';
-import { NavBar } from '../NavBar/NavBar';
-import { TextInput } from '../TextInput/TextInput';
-import { SubmitInput } from '../SubmitInput/SubmitInput';
+import NavBar from '../NavBar';
+import TextInput from '../TextInput';
+import SubmitInput from '../SubmitInput';
 
 // TODO:
 //  Color should be a radio input type with images
@@ -31,4 +31,4 @@ function AddMedPage() {
     );
 }
 
-export { AddMedPage };
+export default AddMedPage;

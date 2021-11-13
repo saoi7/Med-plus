@@ -8,4 +8,4 @@ function SubmitInput(props) {
     );
 }
 
-export { SubmitInput };
+export default SubmitInput;
