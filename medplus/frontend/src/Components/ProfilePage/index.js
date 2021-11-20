@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from '../NavBar';
-import TextInput from '../TextInput';
+import Input from '../Input';
 import SubmitInput from '../SubmitInput';
 import { withAuthorization } from '../Session';
 
@@ -12,10 +12,10 @@ function ProfilePage() {
                 My profile
             </div>
             <form className="add-med-form">
-                <TextInput labelText="Name: " />
-                <TextInput labelText="Email: " />
-                <TextInput labelText="Emergency Contact: " />
-                <TextInput labelText="Password: " />
+                <Input labelText="Name: " />
+                <Input labelText="Email: " />
+                <Input labelText="Emergency Contact: " />
+                <Input labelText="Password: " />
                 <SubmitInput labelText="Submit user information" type="submit" />
             </form>
             <NavBar />

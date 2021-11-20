@@ -31,11 +31,11 @@ function App() {
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route path={ROUTES.SIGN_OUT} component={SignOutButton} />
             <Route path={ROUTES.HOME} component={HomePage} />
-            <Route path="/edit" component={EditPage} />
+            <Route path={ROUTES.EDIT_MEDS} component={EditPage} />
             <Route path={ROUTES.ACCOUNT} component={ProfilePage} />
             <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} /> 
-            <Route path="/add-med" component={AddMedPage} />
+            <Route path={ROUTES.ADD_MED} component={AddMedPage} />
         </Router>
     );
 }

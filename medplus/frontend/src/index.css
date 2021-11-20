@@ -78,6 +78,10 @@ code {
     list-style: none;
 }
 
+.flex-direction-row {
+    flex-direction: row;
+}
+
 /*******************************************************/
 
 .home-layout {

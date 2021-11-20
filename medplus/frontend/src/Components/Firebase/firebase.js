@@ -39,6 +39,20 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
   user = uid => this.db.ref(`users/${uid}`);
  
   users = () => this.db.ref('users');
+
+  TEST_schedules = (med_name) => {
+    // console.log(this.auth.currentUser.uid);  // DEBUG
+    const uid = this.auth.currentUser.uid;
+    let db_path_str = `TEST_schedules/${uid}/`;
+    if(med_name)
+      db_path_str += `${med_name}/`
+    return this.db.ref(db_path_str);
+  }
+
+  TEST_taken = (date_string) => {
+    const uid = this.auth.currentUser.uid;
+    return this.db.ref(`TEST_taken/${uid}/${date_string}/`);
+  }
 }
  
 export default Firebase;

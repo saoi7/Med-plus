@@ -1,17 +1,18 @@
 import React from 'react';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { HiHome } from 'react-icons/hi';
+import * as ROUTES from '../../constants/routes';
 
 function NavBar() {
     return (
         <nav className="nav-bar">
-            <Link to="/home" className="font-medium">
+            <Link to={ROUTES.HOME} className="font-medium">
                 Reminders
             </Link>
-            <Link to="/home" className="font-medium">
+            <Link to={ROUTES.HOME} className="font-medium">
                 <HiHome />
             </Link>
-            <Link to="/profile" className="font-medium">
+            <Link to={ROUTES.ACCOUNT} className="font-medium">
                 Profile
             </Link>
         </nav>
