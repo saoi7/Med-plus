@@ -48,22 +48,26 @@ class EditMedListBase extends React.Component {
                 this.setState({ is_done_loading: true });
                 return;
             }
-            const med_items = Object.keys(db_meds_entries).map(key => key);
+            const med_items = Object.values(db_meds_entries);//.map(key => key);
             this.setState({ is_done_loading: true, med_entries: med_items });
         }).catch(err => {
             this.setState({ is_done_loading: true, firebase_error_flag: true });
         });
     }
 
+    // TODO implement better views for loading and error conditions
     render() {
         let result = "loading...";
         if(this.state.is_done_loading) {
             if(this.state.firebase_error_flag) {
                 result = "ERROR: failed to load data";
             } else {
-                result = this.state.med_entries.map((el) => {
-                    // TODO wrap each one of these in a router <Link> to an edit med entry page
-                    return <EditMedItem name={el} />
+                result = this.state.med_entries.map((med_entry) => {
+                    return (
+                        <Link to={{ pathname: ROUTES.ADD_MED, state: {...med_entry} }}>
+                            <EditMedItem name={med_entry.med_name} />
+                        </Link>
+                    );
                 });
             }
         }
@@ -76,7 +80,6 @@ class EditMedListBase extends React.Component {
 }
 
 function EditMedItem(props) {
-    //const { name } = props;
     return (
         <button className="link-button edit-button font-small">
             { props.name }

@@ -103,10 +103,6 @@ class MedListBase extends React.Component {
         };
     }
 
-    // TODO
-    // try to get med list items from firebase, show prompt if the operation failed
-    // show 'loading...' element in the place of this component until setState sets is_done_loading to true
-    // filter for only todays entries, and sort med list in chronological order
     componentDidMount() {
         this.setState({ is_done_loading: false, firebase_error_flag: false, med_list: [] });
 
@@ -138,22 +134,21 @@ class MedListBase extends React.Component {
         });
     }
 
-    // TODO attempt to write change to firebase, if that fails don't make any changes to the UI and give the user a prompt that the operation failed
+    // TODO display prompt if firebase operation failed
     handle_click = ind => event => {
         const med_obj = this.state.med_list[ind];
         const {med_name, time_to_take} = med_obj;
         const new_is_taken = !med_obj.is_taken;
         const new_val = (new_is_taken) ? time_to_take : null;  // setting value to null in firebase is equivalent to deleting it
-        this.props.firebase.TEST_taken(getDateString())
-            .update({
-                [med_name]: {
-                    time_taken: new_val,
-                }
-            }).then(arg => {
-                const med_list_copy = [ ...this.state.med_list ];
-                med_list_copy[ind].is_taken = new_is_taken;
-                this.setState({ med_list: med_list_copy });
-            })
+        this.props.firebase.TEST_taken(getDateString()).update({
+            [med_name]: {
+                time_taken: new_val,
+            }
+        }).then(arg => {
+            const med_list_copy = [ ...this.state.med_list ];
+            med_list_copy[ind].is_taken = new_is_taken;
+            this.setState({ med_list: med_list_copy });
+        });
     }
 
     // TODO implement better views for loading & error conditions

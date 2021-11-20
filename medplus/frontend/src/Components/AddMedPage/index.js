@@ -4,20 +4,10 @@ import Input from '../Input';
 import SubmitInput from '../SubmitInput';
 import { withFirebase } from '../Firebase';
 import { withAuthorization } from '../Session';
+import * as ROUTES from '../../constants/routes';
+import { useHistory } from 'react-router-dom';
 
-// TODO:
-//  Color should be a radio input type with images
-//  Picture should be a file type
-//  Alarm should take the same timestamp format that the database uses
-
-// TODO re-use this form for both adding new meds and editing existing meds
-
-// TODO:
-// quantity must be > 0
-// end date must come after start date
-// should start date be today or later??
-// name must not be empty
-
+/*
 function getDaysBetweenDates(a, b) {
     let a_timestamp = a.getTime();
     let b_timestamp = b.getTime();
@@ -35,22 +25,44 @@ function convertTimeStringToTimestamp(time_str) {
 }
 
 const ONE_DAY_IN_MS = 86400000;
+*/
 
+// TODO split this into 2 components with 2 different routes?
+// one for adding a new medication and one for editing an existing medication
+// this component currently has 2 purposes depending on how its' configured (see componentDidMount())
+
+// TODO:
+// add validation for:
+// quantity must be > 0
+// end date must come after start date
+// name must not be empty
 class AddMedPageBase extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            edit_page_flag: false,
+            page_title: "Add new medication",
+            med_name: null,
+            start_date: null,
+            end_date: null,
+            time_to_take: null,
+            quantity: null,
         };
     }
 
     componentDidMount() {
-        // TODO make this use data from prop if being used to edit 
-        if(this.props.schedule_obj) {
+        if(this.props.location.state) {
+            this.setState({
+                edit_page_flag: true,
+                page_title: "Edit medication",
+                ...this.props.location.state
+            })
             return;
         }
 
         this.setState({
+            edit_page_flag: false,
+            page_title: "Add new medication",
             med_name: null,
             start_date: null,
             end_date: null,
@@ -61,54 +73,14 @@ class AddMedPageBase extends React.Component {
 
     onSubmit = event => {
         event.preventDefault();
-        console.log(this.state); // DEBUG
 
-        // TODO check if exists first, delete then create new schedule events entries if it does exist
         const med_name = this.state.med_name;
         this.props.firebase.TEST_schedules(med_name).set({
             ...this.state
         });
-        // this.props.firebase.TEST_taken(med_name).set(null); // this doesn't do anything
 
-/*
-        let schedule_events_list = {};
-        let start_date_obj = new Date(this.state.start_date);
-        let end_date_obj = new Date(this.state.end_date);
-        let days_between = getDaysBetweenDates(end_date_obj, start_date_obj);
-        let time_to_take_timestamp = convertTimeStringToTimestamp(this.state.time_to_take);
-        let temp_timestamp = start_date_obj.getTime() + time_to_take_timstamp;
-        for(let i=0; i<=days_between; i++)
-        {
-            console.log(i, days_between);
-            schedule_events_list[temp_timestamp] = {
-                med_name,
-                is_taken: false,
-            };
-            temp_timestamp += ONE_DAY_IN_MS;
-        }
-
-        this.props.firebase.TEST_schedule_events().set({
-            ...schedule_events_list
-        });
-        console.log(schedule_events_list); // DEBUG
-*/
-
-/*
-        // DEBUG ********************************************
-        let now = new Date();
-        let start_of_today_timestamp = (new Date(now.getFullYear, now.getMonth, now.getDate)).getTime();
-        let start_of_tomorrow_timestamp = start_of_today_timestamp + 2*ONE_DAY_IN_MS;
-        let TEST_ref = this.props.firebase.TEST_schedule_events(med_name)
-                                        .orderByKey()
-                                        .startAt(start_of_today_timestamp.toString())
-                                        .endAt(start_of_tomorrow_timestamp.toString());
-        let list = TEST_ref.get().then(snapshot => {
-            console.log(" ================= DEBUG ===============" );
-            // snapshot.val() is null if there is no data
-            console.log(snapshot.val());
-        });
-        // TEST.forEach(item => {console.log(item)});
-*/
+        // redirect to edit page
+        this.props.history.push(ROUTES.EDIT_MEDS);
     };
 
     onChange = event => {
@@ -117,13 +89,14 @@ class AddMedPageBase extends React.Component {
 
     render() {
         let { start_date, end_date, time_to_take, quantity, med_name } = this.state;
+        const on_change_name_input = (this.state.edit_page_flag) ? e => e.preventDefault() : this.onChange
         return (
             <div className="background-with-logo-image add-med-layout">
                 <div className="title font-large">
-                    Add new medication
+                    { this.state.page_title }
                 </div>
                 <form className="add-med-form" onSubmit={this.onSubmit} >
-                    <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={this.onChange} required />
+                    <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={on_change_name_input} required />
                     <Input labelText="Start Date" type="date" name="start_date" value={start_date} onChange={this.onChange} required />
                     <Input labelText="End Date" type="date" name="end_date" value={end_date} onChange={this.onChange} required />
                     <Input labelText="Time To Take" type="time" name="time_to_take" value={time_to_take} onChange={this.onChange} required />
