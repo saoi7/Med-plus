@@ -62,11 +62,11 @@ function set_taken_meds(meds, taken_meds) {
 }
 
 function get_keys_of_todays_meds(meds_obj) {
-    let today = new Date();
+    let today = new Date(getDateString());  // using getDateString() to create today's date since getDateString() doesn't include the current time in today's date
     let keys_of_todays_meds = Object.keys(meds_obj).filter(key => {
         let start_date = new Date(meds_obj[key].start_date);
         let end_date = new Date(meds_obj[key].end_date);
-        return (start_date < today && today < end_date);
+        return (start_date <= today && today <= end_date);
     });
     return keys_of_todays_meds;
 }
@@ -108,7 +108,7 @@ class MedListBase extends React.Component {
     // show 'loading...' element in the place of this component until setState sets is_done_loading to true
     // filter for only todays entries, and sort med list in chronological order
     componentDidMount() {
-        this.setState({ is_done_loading: false });
+        this.setState({ is_done_loading: false, firebase_error_flag: false, med_list: [] });
 
         // TODO
         // currently we pull all entries in schedules from firebase

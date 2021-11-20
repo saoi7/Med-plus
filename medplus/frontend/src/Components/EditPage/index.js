@@ -28,35 +28,48 @@ function EditPageBase(){
     );
 }
 
-class EditMedList extends React.Component {
+class EditMedListBase extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             is_done_loading: false,
-            med_items: []
+            firebase_error_flag: false,
+            med_entries: []
         }
     }
 
-    // TODO
-    // try to get med items from firebase, show prompt if operation failed
-    // show 'loading...' element in place of this component until setState sets is_done_loading to true
+    // TODO only display entries that are active (end_date has not passed yet)
+    // can re-use code for checking if entry is active with the HomePage
     componentDidMount() {
-        const dummy_med_data = [
-            'med1',
-            'med2',
-            'med3',
-            'med4'
-        ];
-        this.setState({ med_items: dummy_med_data });
+        this.setState({ is_done_loading: false, firebase_error_flag: false, med_entries: [] });
+        this.props.firebase.TEST_schedules().get().then(snapshot => {
+            let db_meds_entries = snapshot.val();
+            if(!db_meds_entries) {
+                this.setState({ is_done_loading: true });
+                return;
+            }
+            const med_items = Object.keys(db_meds_entries).map(key => key);
+            this.setState({ is_done_loading: true, med_entries: med_items });
+        }).catch(err => {
+            this.setState({ is_done_loading: true, firebase_error_flag: true });
+        });
     }
 
     render() {
-        return (
-            <div className="edit-container flex-container">
-                { this.state.med_items.map((el) => {
+        let result = "loading...";
+        if(this.state.is_done_loading) {
+            if(this.state.firebase_error_flag) {
+                result = "ERROR: failed to load data";
+            } else {
+                result = this.state.med_entries.map((el) => {
                     // TODO wrap each one of these in a router <Link> to an edit med entry page
                     return <EditMedItem name={el} />
-                }) }
+                });
+            }
+        }
+        return (
+            <div className="edit-container flex-container">
+                { result }
             </div>
         );
     }
@@ -72,6 +85,7 @@ function EditMedItem(props) {
 }
 
 const EditPage = withFirebase(EditPageBase);
+const EditMedList = withFirebase(EditMedListBase);
 
 const condition = authUser => !!authUser;
 export default withAuthorization(condition)(EditPage);
