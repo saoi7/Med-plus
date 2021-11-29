@@ -1,3 +1,7 @@
+// created by Yi Song October 2021 
+// reference  https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
+// updated by
+
 export const LANDING = '/';
 export const SIGN_UP = '/signup';
 export const SIGN_IN = '/signin';
