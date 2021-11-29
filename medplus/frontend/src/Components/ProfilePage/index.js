@@ -12,10 +12,10 @@ function ProfilePage() {
                 My profile
             </div>
             <form className="add-med-form">
-                <Input labelText="Name: " />
-                <Input labelText="Email: " />
-                <Input labelText="Emergency Contact: " />
-                <Input labelText="Password: " />
+                <Input labelText="Name" />
+                <Input labelText="Email" />
+                <Input labelText="Emergency Contact" />
+                <Input labelText="Password" />
                 <SubmitInput labelText="Submit user information" type="submit" />
             </form>
             <NavBar />

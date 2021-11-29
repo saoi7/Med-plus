@@ -5,28 +5,125 @@ import NavBar from '../NavBar';
 import { withAuthorization } from '../Session';
 import * as ROUTES from '../../constants/routes';
 
-function HomePageBase(props) {
+class HomePageBase extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            active_med_list: null,
+            // TODO usernames don't have to be unique, this may cause issues
+            med_lists: {
+                //username: {ref: ___, uid: ___}
+            }
+        }
+    }
+
+    componentDidMount() {
+        let curr_uid = this.props.firebase.currentUserUID();
+        let curr_user_medlist_ref = this.props.firebase.TEST_schedules();
+        this.props.firebase.currentUser().get().then(snapshot => {
+            if(!snapshot.val())
+            {
+                // TODO
+            }
+            // console.log("SNAPSHOT:", snapshot.val());
+            let curr_username = snapshot.val().username;
+            let new_med_lists = {
+                ...this.state.med_lists,
+                [curr_username]: { ref: curr_user_medlist_ref, uid: curr_uid }
+            };
+            this.setState({
+                active_med_list: curr_username,
+                med_lists: new_med_lists
+            });
+            console.log("STATE:", this.state);
+        }).catch(err => {
+            // TODO
+        }).then(val => {
+            console.log("PART 2");
+            let sharee_of_ref = this.props.firebase.getShareeOfRef();
+            sharee_of_ref.get().then(snapshot => {
+                // console.log("SNAPSHOT:", snapshot.val());
+                if(!snapshot.val()) {
+                    // TODO
+                }
+                Object.entries(snapshot.val()).forEach(entry => {
+                    let [uid, username] = entry;
+                    let med_list_ref = this.props.firebase.TEST_schedules(undefined, uid);
+                    let new_med_lists = {
+                        ...this.state.med_lists,
+                        [username]: { ref: med_list_ref, uid}
+                    };
+                    this.setState({ med_lists: new_med_lists });
+                    console.log("ABCDEFG", this.state);
+                })
+            }).catch(err => {
+                // TODO
+            });
+        });
+    }
+
+    updateActiveMedList = (new_active_med_list) => () => {
+        console.log("UPDATE ACTIVE MED LIST CALLED", new_active_med_list);
+        this.setState({ active_med_list: new_active_med_list });
+    }
+
+    render() {
+        let key = this.state.active_med_list;
+        let current_med_list = null;
+        if(key !== null)
+            current_med_list = this.state.med_lists[key].ref;
+
+        console.log("UPDATE",current_med_list);
+        // TODO update css for this div
+        return (
+            <div className='background-with-logo-image home-layout'>
+                <MedListSelection updateActiveMedList={this.updateActiveMedList} activeMedList={this.state.active_med_list} medListObjs={this.state.med_lists}/>
+                <div className="title">
+                    <div className="font-very-large">Pill Reminder</div>
+                    <div className="font-large">Todays pills</div>
+                </div>
+                <MedList medListDBRef={key && this.state.med_lists[key].ref}/>
+                <div className="button-container flex-container flex-justify-content-end">
+                    <Link to={ROUTES.EDIT_MEDS} className="link-button font-small">
+                        Edit your medication list
+                    </Link>
+                </div>
+                <NavBar />
+            </div>
+        );
+    }
+}
+
+function MedListSelection(props) {
+    let items = "";
+    if(props.medListObjs && props.medListObjs.length > 1) {
+        items = Object.entries(props.medListObjs).map(entry => {
+            let [username, obj] = entry;
+            // TODO make this different color
+            if(username === props.activeMedList)
+            {
+                return (
+                    <button className="link-button" onClick={props.updateActiveMedList(username)}>{username}</button>
+                );
+            }
+            return (
+                <button className="link-button" onClick={props.updateActiveMedList(username)}>{username}</button>
+            );
+        });
+    }
+
     return (
-        <div className='background-with-logo-image home-layout'>
-            <div className="title">
-                <div className="font-very-large">Pill Reminder</div>
-                <div className="font-large">Todays pills</div>
-            </div>
-            <MedList />
-            <div className="button-container flex-container flex-justify-content-end">
-                <Link to={ROUTES.EDIT_MEDS} className="link-button font-small">
-                    Edit your medication list
-                </Link>
-            </div>
-            <NavBar />
+        <div className="med-list-selection">
+            { items }
         </div>
     );
 }
 
 function compareDate(a, b) {
-    return ((a.getDate() == b.getDay()) && 
-            (a.getMonth() == b.getMpnth()) &&
-            (a.getFullYear() == b.getFullYear()));
+    return ((a.getDate() === b.getDay()) && 
+            (a.getMonth() === b.getMpnth()) &&
+            (a.getFullYear() === b.getFullYear()));
 }
 
 function getDateString() {
@@ -97,20 +194,32 @@ class MedListBase extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            db_ref: null,
             is_done_loading: false,
             firebase_error_flag: false,
             med_list: []
         };
     }
 
-    componentDidMount() {
-        this.setState({ is_done_loading: false, firebase_error_flag: false, med_list: [] });
+    // TODO
+    // show 'no meds today' if everything goes successfully but
+    // there are no meds after filtering
+    // firebase_error_flag will be false && med_list.length === 0
+    populateMedList() {
+        this.setState({
+            db_ref: this.props.medListDBRef,  // this is necessary for componentDidUpdate() to not enter infinite loop
+            is_done_loading: false,
+            firebase_error_flag: false,
+            med_list: []
+        });
 
         // TODO
         // currently we pull all entries in schedules from firebase
         // then we loop through the entries and filter for entries where today falls between the start_date and end_date
         // see if we can make firebase do the filtering for us (may require restructuring the data in the firebase db)
-        this.props.firebase.TEST_schedules().get().then(snapshot => {
+        if(!this.props.medListDBRef)
+            return;
+        this.props.medListDBRef.get().then(snapshot => {
             let db_meds_entries = snapshot.val();
             if(!db_meds_entries) {   
                 this.setState({ is_done_loading: true });
@@ -134,6 +243,15 @@ class MedListBase extends React.Component {
         });
     }
 
+    componentDidMount() {
+        this.populateMedList();
+    }
+
+    componentDidUpdate() {
+        if(this.state.db_ref !== this.props.medListDBRef)
+            this.populateMedList();
+    }
+
     // TODO display prompt if firebase operation failed
     handle_click = ind => event => {
         const med_obj = this.state.med_list[ind];
@@ -151,21 +269,20 @@ class MedListBase extends React.Component {
         });
     }
 
+
     // TODO implement better views for loading & error conditions
     render() {
         let result = "loading...";
-        if(this.state.is_done_loading) {
-            if(this.state.firebase_error_flag) {
-                result = "ERROR: failed to load data";
-            } else {
-                result = this.state.med_list.map((medobj, ind) => {
-                    console.log(medobj);
-                    return <MedListItem data={medobj} onClick={this.handle_click(ind)}/>;
-                });
-            }
+        if(this.state.is_done_loading && this.state.firebase_error_flag)
+            result = "ERROR: failed to load data";
+        if(this.state.is_done_loading && !this.state.firebase_error_flag) {
+            result = this.state.med_list.map((medobj, ind) => {
+                console.log(medobj);
+                return <MedListItem data={medobj} onClick={this.handle_click(ind)}/>;
+            });
         }
         return (
-            <div className="med-list-container flex-container flex-justify-content-space-between">
+            <div className="med-list-container flex-container flex-justify-content-space-evenly">
                 { result }
             </div>
         );
@@ -175,18 +292,18 @@ class MedListBase extends React.Component {
 function MedListItem(props) {
     const { med_name, time_to_take, is_taken, quantity } = props.data;
     return (
-        <div>
+        <div className="med-list-entry-container font-medium" key={med_name+time_to_take} >
             {time_to_take}
-            <button className="link-button font-small" key={med_name+time_to_take} onClick={props.onClick}>
+            <button className="med-list-entry-box font-small" onClick={props.onClick}>
                 <span>{med_name}</span>
-                <span>{quantity}</span>
+                <span>{"Qty: "+quantity}</span>
                 <input type="checkbox" value="" className="check-box" checked={is_taken} />
             </button>
         </div>
     );
 }
 
-const HomePage = withFirebase(HomePageBase);  // TODO this is unecessary
+const HomePage = withFirebase(HomePageBase);
 const MedList = withFirebase(MedListBase);
 
 const condition = authUser => !!authUser;

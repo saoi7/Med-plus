@@ -58,18 +58,16 @@ class EditMedListBase extends React.Component {
     // TODO implement better views for loading and error conditions
     render() {
         let result = "loading...";
-        if(this.state.is_done_loading) {
-            if(this.state.firebase_error_flag) {
-                result = "ERROR: failed to load data";
-            } else {
-                result = this.state.med_entries.map((med_entry) => {
-                    return (
-                        <Link to={{ pathname: ROUTES.ADD_MED, state: {...med_entry} }}>
-                            <EditMedItem name={med_entry.med_name} />
-                        </Link>
-                    );
-                });
-            }
+        if(this.state.is_done_loading && this.state.firebase_error_flag)
+            result = "ERROR: failed to load data";
+        if(this.state.is_done_loading && !this.state.firebase_error_flag) {
+            result = this.state.med_entries.map((med_entry) => {
+                return (
+                    <Link className="no-underline" to={{ pathname: ROUTES.ADD_MED, state: {...med_entry} }}>
+                        <EditMedItem name={med_entry.med_name} />
+                    </Link>
+                );
+            });
         }
         return (
             <div className="edit-container flex-container">
@@ -81,9 +79,9 @@ class EditMedListBase extends React.Component {
 
 function EditMedItem(props) {
     return (
-        <button className="link-button edit-button font-small">
+        <div className="link-button edit-button font-small">
             { props.name }
-        </button>
+        </div>
     );
 }
 

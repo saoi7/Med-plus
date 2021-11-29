@@ -40,9 +40,15 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
  
   users = () => this.db.ref('users');
 
-  TEST_schedules = (med_name) => {
+  currentUser = () => {
+    return this.db.ref(`users/${this.auth.currentUser.uid}`);
+  }
+
+  currentUserUID = () => { return this.auth.currentUser.uid; }
+
+  TEST_schedules = (med_name, uid = this.auth.currentUser.uid) => {
     // console.log(this.auth.currentUser.uid);  // DEBUG
-    const uid = this.auth.currentUser.uid;
+    //const uid = this.auth.currentUser.uid;
     let db_path_str = `TEST_schedules/${uid}/`;
     if(med_name)
       db_path_str += `${med_name}/`
@@ -52,6 +58,20 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
   TEST_taken = (date_string) => {
     const uid = this.auth.currentUser.uid;
     return this.db.ref(`TEST_taken/${uid}/${date_string}/`);
+  }
+
+  // get firebase ref for this user's med list AND
+  // the refs for the med lists that other accounts
+  // have shared with this user
+  //getAllAvailableMedListRefs = () => {
+  //  TODO update this to return shared users lists
+  //  const uid = this.auth.currentUser.uid;
+  //  return [ this.db.ref(`TEST_schedules/${uid}`) ];
+  //}
+
+  getShareeOfRef = () => {
+    const uid = this.auth.currentUser.uid;
+    return this.db.ref(`users/${uid}/sharee_of`);
   }
 }
  
