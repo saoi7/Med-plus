@@ -143,6 +143,22 @@ code {
     grid-area: med-list-selection;
 }
 
+.med-list-time-to-take-quantity-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
+}
+
+.time-to-take-button {
+    font-size: 50px;
+    margin-left: 10px;
+}
+
+.quantity-input {
+    margin-left: 10px;
+}
+
 /*******************************************************/
 
 .check-box {
@@ -227,7 +243,7 @@ code {
     ".           .        ."
     "nav-bar  nav-bar  nav-bar";
     grid-template-columns: 10% 70% auto;
-    grid-template-rows: auto 10% auto 50% auto 10% auto 60px;
+    grid-template-rows: 2.5% 10% auto 65% auto 60px;
 }
 
 .add-med-form {

@@ -6,6 +6,7 @@ import { withFirebase } from '../Firebase';
 import { withAuthorization } from '../Session';
 import * as ROUTES from '../../constants/routes';
 import { useHistory } from 'react-router-dom';
+import { ImPlus, ImMinus } from 'react-icons/im';
 
 /*
 function getDaysBetweenDates(a, b) {
@@ -45,12 +46,13 @@ class AddMedPageBase extends React.Component {
             med_name: null,
             start_date: null,
             end_date: null,
-            time_to_take: null,
+            times_to_take: [],
             quantity: null,
         };
     }
 
     componentDidMount() {
+        // TODO update the link from EditMedPage
         if(this.props.location.state) {
             this.setState({
                 edit_page_flag: true,
@@ -66,8 +68,7 @@ class AddMedPageBase extends React.Component {
             med_name: null,
             start_date: null,
             end_date: null,
-            time_to_take: null,
-            quantity: null,
+            times_to_take: [ {time_to_take: "", quantity: null} ],
         });
     }
 
@@ -83,13 +84,75 @@ class AddMedPageBase extends React.Component {
         this.props.history.push(ROUTES.EDIT_MEDS);
     };
 
+    handleTimeToTakeChange = index => event => {
+        let new_times_to_take = [ ...this.state.times_to_take ];
+        new_times_to_take[index] = { 
+            ...this.state.times_to_take[index], 
+            time_to_take: event.target.value
+        };
+        this.setState({
+            times_to_take: new_times_to_take
+        });
+    }
+
+    handleQuantityChange = index => event => {
+        let new_times_to_take = [ ...this.state.times_to_take ];
+        new_times_to_take[index] = { 
+            ...this.state.times_to_take[index],
+            quantity: event.target.value
+        };
+        this.setState({
+            times_to_take: new_times_to_take
+        });
+    }
+
     onChange = event => {
-        this.setState( { [event.target.name]: event.target.value } );
+        this.setState({ [event.target.name]: event.target.value });
     };
+
+    addNewTimeToTakeQuantityGroup = event => {
+        let new_times_to_take = [
+            ...this.state.times_to_take,
+            { time_to_take: "", quantity: null }
+        ];
+        this.setState({
+            times_to_take: new_times_to_take
+        });
+    }
+
+    removeTimeToTakeQuantityGroup = index => event => {
+        let new_times_to_take = [
+            ...this.state.times_to_take.slice(0, index),
+            ...this.state.times_to_take.slice(index+1),
+        ];
+        console.log(this.state);
+        this.setState({
+            times_to_take: new_times_to_take
+        });
+    }
 
     render() {
         let { start_date, end_date, time_to_take, quantity, med_name } = this.state;
-        const on_change_name_input = (this.state.edit_page_flag) ? e => e.preventDefault() : this.onChange
+        const on_change_name_input = (this.state.edit_page_flag) ? e => e.preventDefault() : this.onChange;
+        let times_to_take_entries = this.state.times_to_take.map((times_to_take_obj, index) => {
+            let add_new_time_input_button = (
+                <ImMinus className="time-to-take-button" onClick={this.removeTimeToTakeQuantityGroup(index)}></ImMinus>
+            );
+            if(index === this.state.times_to_take.length -1) {
+                add_new_time_input_button = (
+                    <ImPlus className="time-to-take-button" onClick={this.addNewTimeToTakeQuantityGroup}></ImPlus>
+                );
+            }
+            if(index === this.state.times_to_take.length -1 && this.state.times_to_take.length === 4)
+                add_new_time_input_button = null;
+            return (
+                <div className="med-list-time-to-take-quantity-group">
+                    <Input labelText="Time To Take" type="time" name={"time_to_take"} value={times_to_take_obj.time_to_take} onChange={this.handleTimeToTakeChange(index)} required />
+                    <Input className="quantity-input" labelText="Quantity" type="number" name={"quantity"} value={times_to_take_obj.quantity} onChange={this.handleQuantityChange(index)} required />
+                    { add_new_time_input_button }
+                </div>
+            );
+        })
         return (
             <div className="background-with-logo-image add-med-layout">
                 <div className="title font-large">
@@ -99,8 +162,7 @@ class AddMedPageBase extends React.Component {
                     <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={on_change_name_input} required />
                     <Input labelText="Start Date" type="date" name="start_date" value={start_date} onChange={this.onChange} required />
                     <Input labelText="End Date" type="date" name="end_date" value={end_date} onChange={this.onChange} required />
-                    <Input labelText="Time To Take" type="time" name="time_to_take" value={time_to_take} onChange={this.onChange} required />
-                    <Input labelText="Quantity" type="number" name="quantity" value={quantity} onChange={this.onChange} required />
+                    { times_to_take_entries }
                     <SubmitInput labelText="Submit new medication" />
                 </form>
                 <NavBar />
@@ -108,6 +170,7 @@ class AddMedPageBase extends React.Component {
         );
     }
 }
+
 
 const AddMedPage = withFirebase(AddMedPageBase);
 

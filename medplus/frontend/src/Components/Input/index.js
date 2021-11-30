@@ -2,7 +2,7 @@ import React from 'react';
 
 function Input(props) {
    return (
-        <div className="add-med-input font-medium">
+        <div className={"add-med-input font-small" + " " + props.className}>
             <label className="left-padding">
                 {props.labelText + ": "}
             </label>
