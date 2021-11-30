@@ -70,11 +70,12 @@ class HomePageBase extends React.Component {
 
     render() {
         let key = this.state.active_med_list;
-        let current_med_list = null;
+        let current_med_list_ref = null;
         if(key !== null)
-            current_med_list = this.state.med_lists[key].ref;
+            current_med_list_ref = this.state.med_lists[key].ref;
 
-        console.log("UPDATE",current_med_list);
+        console.log("UPDATE",current_med_list_ref);
+        console.log("ACTIVE",key);
         // TODO update css for this div
         return (
             <div className='background-with-logo-image home-layout'>
@@ -83,7 +84,7 @@ class HomePageBase extends React.Component {
                     <div className="font-very-large">Pill Reminder</div>
                     <div className="font-large">Todays pills</div>
                 </div>
-                <MedList medListDBRef={key && this.state.med_lists[key].ref}/>
+                <MedList medListDBRef={current_med_list_ref}/>
                 <div className="button-container flex-container flex-justify-content-end">
                     <Link to={ROUTES.EDIT_MEDS} className="link-button font-small">
                         Edit your medication list
@@ -152,8 +153,12 @@ function flatten_meds_obj(meds) {
 
 function set_taken_meds(meds, taken_meds) {
     Object.entries(taken_meds).forEach((entry) => {
-        let [key, value] = entry;
-        meds[key][value.time_taken].is_taken = true;
+        let [med_name, times_taken_obj] = entry;
+        Object.entries(times_taken_obj).forEach((time_obj) => {
+            let [time_taken, is_taken] = time_obj;
+            //console.log("THING",value);
+            meds[med_name][time_taken].is_taken = true;
+        });
     });
     return meds;
 }
@@ -171,12 +176,17 @@ function get_keys_of_todays_meds(meds_obj) {
 function get_todays_meds_obj(meds_obj, filtered_meds_keys) {
     let meds = {};
     filtered_meds_keys.forEach(key => {
-        meds[key] = {
-            [meds_obj[key].time_to_take]: {
-                is_taken: false,
-                quantity: meds_obj[key].quantity,
+        let times_to_take_obj = Object.entries(meds_obj[key].times_to_take);
+        times_to_take_obj.forEach((entry, index) => {
+            let [time_to_take, quantity] = entry;
+            meds[key] = {
+                ...meds[key],
+                [time_to_take]: {
+                    is_taken: false,
+                    quantity
+                }
             }
-        }
+        });
     });
     return meds;
 }
@@ -213,6 +223,7 @@ class MedListBase extends React.Component {
             med_list: []
         });
 
+            console.log(this.state.db_ref);
         // TODO
         // currently we pull all entries in schedules from firebase
         // then we loop through the entries and filter for entries where today falls between the start_date and end_date
@@ -221,6 +232,7 @@ class MedListBase extends React.Component {
             return;
         this.props.medListDBRef.get().then(snapshot => {
             let db_meds_entries = snapshot.val();
+            console.log("SNAPSHOT",db_meds_entries);
             if(!db_meds_entries) {   
                 this.setState({ is_done_loading: true });
                 return;
@@ -229,6 +241,7 @@ class MedListBase extends React.Component {
             let meds = get_todays_meds_obj(db_meds_entries, todays_meds_keys);
             this.props.firebase.TEST_taken(getDateString()).get().then(snapshot => {
                 let taken_meds = snapshot.val();
+                console.log("MEDS",meds);
                 if(taken_meds) {
                     meds = set_taken_meds(meds, taken_meds);
                 }
@@ -257,11 +270,9 @@ class MedListBase extends React.Component {
         const med_obj = this.state.med_list[ind];
         const {med_name, time_to_take} = med_obj;
         const new_is_taken = !med_obj.is_taken;
-        const new_val = (new_is_taken) ? time_to_take : null;  // setting value to null in firebase is equivalent to deleting it
-        this.props.firebase.TEST_taken(getDateString()).update({
-            [med_name]: {
-                time_taken: new_val,
-            }
+        const new_val = (new_is_taken) ? true : null;  // setting value to null in firebase is equivalent to deleting it
+        this.props.firebase.TEST_taken(getDateString()).child(med_name).update({
+            [time_to_take]: new_val,
         }).then(arg => {
             const med_list_copy = [ ...this.state.med_list ];
             med_list_copy[ind].is_taken = new_is_taken;

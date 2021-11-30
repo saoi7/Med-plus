@@ -47,18 +47,25 @@ class AddMedPageBase extends React.Component {
             start_date: null,
             end_date: null,
             times_to_take: [],
-            quantity: null,
         };
     }
 
     componentDidMount() {
         // TODO update the link from EditMedPage
         if(this.props.location.state) {
+            let times_to_take_arr = Object.entries(this.props.location.state.times_to_take).map(entry => {
+                let [time_to_take, quantity] = entry;
+                return {
+                    time_to_take,
+                    quantity
+                };
+            });
             this.setState({
+                ...this.props.location.state,
                 edit_page_flag: true,
                 page_title: "Edit medication",
-                ...this.props.location.state
-            })
+                times_to_take: times_to_take_arr,
+            });
             return;
         }
 
@@ -68,7 +75,9 @@ class AddMedPageBase extends React.Component {
             med_name: null,
             start_date: null,
             end_date: null,
-            times_to_take: [ {time_to_take: "", quantity: null} ],
+            times_to_take: [
+                { time_to_take: "", quantity: null }
+            ],
         });
     }
 
@@ -76,8 +85,16 @@ class AddMedPageBase extends React.Component {
         event.preventDefault();
 
         const med_name = this.state.med_name;
+        let modified_times_to_take = {};
+        this.state.times_to_take.forEach((time_obj, index) => {
+            let time_str = time_obj.time_to_take;
+            let qty = time_obj.quantity;
+            modified_times_to_take[time_str] = qty;
+        });
+
         this.props.firebase.TEST_schedules(med_name).set({
-            ...this.state
+            ...this.state,
+            times_to_take: modified_times_to_take
         });
 
         // redirect to edit page
