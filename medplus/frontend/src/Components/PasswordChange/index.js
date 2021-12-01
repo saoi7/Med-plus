@@ -1,6 +1,6 @@
 // created by Yi Song October 2021 
 // reference  https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
-// updated by
+// add UI div updated by Yi Song 2021/12/1
 
 import React, { Component } from 'react';
  
@@ -45,27 +45,31 @@ class PasswordChangeForm extends Component {
       passwordOne !== passwordTwo || passwordOne === '';
  
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="New Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm New Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
- 
-        {error && <p>{error.message}</p>}
-      </form>
+      <div className="background-image landing-layout">
+        <div className="button-container flex-container flex-justify-content-space-around">
+          <form onSubmit={this.onSubmit}>
+            <input
+              name="passwordOne"
+              value={passwordOne}
+              onChange={this.onChange}
+              type="password"
+              placeholder="New Password"
+            />
+            <input
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Confirm New Password"
+            />
+            <button disabled={isInvalid} type="submit">
+              Reset My Password
+            </button>
+    
+            {error && <p>{error.message}</p>}
+          </form>
+        </div>
+      </div>
     );
   }
 }

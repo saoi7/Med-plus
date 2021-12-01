@@ -1,6 +1,6 @@
 // created by Yi Song October 2021 
 // reference  https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
-// updated by
+// add UI div updated by Yi Song 2021/12/1
 
 import React, { Component } from 'react';
 import {  Router, Route, Link, withRouter } from 'react-router-dom';
@@ -12,9 +12,11 @@ import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
  
 const SignUpPage = () => (
-  <div>
+  <div className="background-image landing-layout">
+    <div className="button-container flex-container flex-justify-content-space-around">
     <h1>SignUp</h1>
-<SignUpForm />
+    <SignUpForm />
+    </div>
   </div>
 );
  
