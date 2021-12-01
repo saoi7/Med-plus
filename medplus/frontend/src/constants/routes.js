@@ -11,4 +11,5 @@ export const ACCOUNT = '/account';
 export const ADMIN = '/admin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const ADD_MED = '/add-med';
-export const EDIT_MEDS = '/edit';
+export const EDIT_MED = '/edit';
+export const MANAGE_MEDS = '/manage';

@@ -8,7 +8,7 @@ import * as ROUTES from '../../constants/routes';
 
 // TODO update this so that it can dynamically resize the buttons to fit properly for larger numbers of medications
 
-function EditPageBase(){
+function ManageMedsPageBase(){
     return (
         <div className='background-with-logo-image edit-layout'>
             <div className="title font-large">
@@ -63,7 +63,7 @@ class EditMedListBase extends React.Component {
         if(this.state.is_done_loading && !this.state.firebase_error_flag) {
             result = this.state.med_entries.map((med_entry) => {
                 return (
-                    <Link className="no-underline" to={{ pathname: ROUTES.ADD_MED, state: {...med_entry} }}>
+                    <Link className="no-underline" to={{ pathname: ROUTES.EDIT_MED, state: {...med_entry} }}>
                         <EditMedItem name={med_entry.med_name} />
                     </Link>
                 );
@@ -85,8 +85,8 @@ function EditMedItem(props) {
     );
 }
 
-const EditPage = withFirebase(EditPageBase);
+const ManageMedsPage = withFirebase(ManageMedsPageBase);
 const EditMedList = withFirebase(EditMedListBase);
 
 const condition = authUser => !!authUser;
-export default withAuthorization(condition)(EditPage);
+export default withAuthorization(condition)(ManageMedsPage);

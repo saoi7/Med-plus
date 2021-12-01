@@ -26,7 +26,6 @@ class HomePageBase extends React.Component {
             {
                 // TODO
             }
-            // console.log("SNAPSHOT:", snapshot.val());
             let curr_username = snapshot.val().username;
             let new_med_lists = {
                 ...this.state.med_lists,
@@ -36,14 +35,11 @@ class HomePageBase extends React.Component {
                 active_med_list: curr_username,
                 med_lists: new_med_lists
             });
-            console.log("STATE:", this.state);
         }).catch(err => {
             // TODO
         }).then(val => {
-            console.log("PART 2");
             let sharee_of_ref = this.props.firebase.getShareeOfRef();
             sharee_of_ref.get().then(snapshot => {
-                // console.log("SNAPSHOT:", snapshot.val());
                 if(!snapshot.val()) {
                     // TODO
                 }
@@ -55,7 +51,6 @@ class HomePageBase extends React.Component {
                         [username]: { ref: med_list_ref, uid}
                     };
                     this.setState({ med_lists: new_med_lists });
-                    console.log("ABCDEFG", this.state);
                 })
             }).catch(err => {
                 // TODO
@@ -64,7 +59,6 @@ class HomePageBase extends React.Component {
     }
 
     updateActiveMedList = (new_active_med_list) => () => {
-        console.log("UPDATE ACTIVE MED LIST CALLED", new_active_med_list);
         this.setState({ active_med_list: new_active_med_list });
     }
 
@@ -74,9 +68,6 @@ class HomePageBase extends React.Component {
         if(key !== null)
             current_med_list_ref = this.state.med_lists[key].ref;
 
-        console.log("UPDATE",current_med_list_ref);
-        console.log("ACTIVE",key);
-        // TODO update css for this div
         return (
             <div className='background-with-logo-image home-layout'>
                 <MedListSelection updateActiveMedList={this.updateActiveMedList} activeMedList={this.state.active_med_list} medListObjs={this.state.med_lists}/>
@@ -86,7 +77,7 @@ class HomePageBase extends React.Component {
                 </div>
                 <MedList medListDBRef={current_med_list_ref}/>
                 <div className="button-container flex-container flex-justify-content-end">
-                    <Link to={ROUTES.EDIT_MEDS} className="link-button font-small">
+                    <Link to={ROUTES.MANAGE_MEDS} className="link-button font-small">
                         Edit your medication list
                     </Link>
                 </div>
@@ -151,13 +142,37 @@ function flatten_meds_obj(meds) {
     return med_list;
 }
 
+function set_taken_meds_that_arent_in_schedule_obj(meds, taken_meds) {
+    Object.entries(taken_meds).forEach((entry) => {
+        let [med_name, times_taken_obj] = entry;
+        Object.entries(times_taken_obj).forEach((time_obj) => {
+            let [time_taken, quantity] = time_obj;
+            if(!meds[med_name])
+                meds[med_name] = {};
+            if(!meds[med_name][time_taken]) {
+                // time: { is_taken, quantity } // data structure of meds
+                meds[med_name][time_taken] = { is_taken: true, quantity };
+            }
+        });
+    });
+    return meds;
+
+}
+
 function set_taken_meds(meds, taken_meds) {
     Object.entries(taken_meds).forEach((entry) => {
         let [med_name, times_taken_obj] = entry;
         Object.entries(times_taken_obj).forEach((time_obj) => {
-            let [time_taken, is_taken] = time_obj;
-            //console.log("THING",value);
-            meds[med_name][time_taken].is_taken = true;
+            let [time_taken, quantity] = time_obj;
+
+            // the if check prevents bugs when you set meds as taken, then change
+            // the times for a schedule, then re-load homepage on the same day
+            if(meds[med_name] && meds[med_name][time_taken]) {
+                meds[med_name][time_taken] = {
+                    is_taken: true,
+                    quantity: quantity
+                };
+            }
         });
     });
     return meds;
@@ -223,16 +238,16 @@ class MedListBase extends React.Component {
             med_list: []
         });
 
-            console.log(this.state.db_ref);
         // TODO
         // currently we pull all entries in schedules from firebase
         // then we loop through the entries and filter for entries where today falls between the start_date and end_date
         // see if we can make firebase do the filtering for us (may require restructuring the data in the firebase db)
+        // 
+        // there are edge cases where you set meds as taken, then modify the schedules object for that med, then check the HomePage again
         if(!this.props.medListDBRef)
             return;
         this.props.medListDBRef.get().then(snapshot => {
             let db_meds_entries = snapshot.val();
-            console.log("SNAPSHOT",db_meds_entries);
             if(!db_meds_entries) {   
                 this.setState({ is_done_loading: true });
                 return;
@@ -241,8 +256,8 @@ class MedListBase extends React.Component {
             let meds = get_todays_meds_obj(db_meds_entries, todays_meds_keys);
             this.props.firebase.TEST_taken(getDateString()).get().then(snapshot => {
                 let taken_meds = snapshot.val();
-                console.log("MEDS",meds);
                 if(taken_meds) {
+                    meds = set_taken_meds_that_arent_in_schedule_obj(meds, taken_meds);
                     meds = set_taken_meds(meds, taken_meds);
                 }
                 let med_list = flatten_meds_obj(meds);
@@ -268,9 +283,9 @@ class MedListBase extends React.Component {
     // TODO display prompt if firebase operation failed
     handle_click = ind => event => {
         const med_obj = this.state.med_list[ind];
-        const {med_name, time_to_take} = med_obj;
+        const {med_name, time_to_take, quantity} = med_obj;
         const new_is_taken = !med_obj.is_taken;
-        const new_val = (new_is_taken) ? true : null;  // setting value to null in firebase is equivalent to deleting it
+        const new_val = (new_is_taken) ? quantity : null;  // setting value to null in firebase is equivalent to deleting it
         this.props.firebase.TEST_taken(getDateString()).child(med_name).update({
             [time_to_take]: new_val,
         }).then(arg => {
@@ -288,7 +303,6 @@ class MedListBase extends React.Component {
             result = "ERROR: failed to load data";
         if(this.state.is_done_loading && !this.state.firebase_error_flag) {
             result = this.state.med_list.map((medobj, ind) => {
-                console.log(medobj);
                 return <MedListItem data={medobj} onClick={this.handle_click(ind)}/>;
             });
         }

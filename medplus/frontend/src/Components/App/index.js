@@ -6,9 +6,10 @@ import './App.css';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import HomePage from '../HomePage';
 import LandingPage from '../LandingPage';
-import EditPage from '../EditPage';
+import ManageMedsPage from '../ManageMedsPage';
 import ProfilePage from '../ProfilePage';
 import AddMedPage from '../AddMedPage';
+import EditMedPage from '../EditMedPage';
 import SignInPage from '../SignIn';
 import SignUpPage from '../SignUp';
 import PasswordForgetPage from '../PasswordForget';
@@ -21,12 +22,7 @@ import { withAuthentication } from '../Session';
 import { withFirebase } from '../Firebase';
 import { AuthUserContext } from '../Session';
 
-// TODO all routes except for login, register and landing page should redirect to the landing page unless user is authenticated
-
-// TODO move fonts into CSS classes and re-use anywhere there is text
-
-// TODO not all of these routes are accessible through navigating the app
-// TODO move all route strings to constants/routes.js
+// TODO not all of these routes are accessible through navigating the app (e.g. signout)
 function App() {
     return (
         <Router>
@@ -35,11 +31,12 @@ function App() {
             <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
             <Route path={ROUTES.SIGN_OUT} component={SignOutButton} />
             <Route path={ROUTES.HOME} component={HomePage} />
-            <Route path={ROUTES.EDIT_MEDS} component={EditPage} />
+            <Route path={ROUTES.MANAGE_MEDS} component={ManageMedsPage} />
             <Route path={ROUTES.ACCOUNT} component={ProfilePage} />
             <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
             <Route path={ROUTES.ADMIN} component={AdminPage} /> 
             <Route path={ROUTES.ADD_MED} component={AddMedPage} />
+            <Route path={ROUTES.EDIT_MED} component={EditMedPage} />
         </Router>
     );
 }

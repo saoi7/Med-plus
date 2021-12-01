@@ -51,8 +51,6 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
   currentUserUID = () => { return this.auth.currentUser.uid; }
 
   TEST_schedules = (med_name, uid = this.auth.currentUser.uid) => {
-    // console.log(this.auth.currentUser.uid);  // DEBUG
-    //const uid = this.auth.currentUser.uid;
     let db_path_str = `TEST_schedules/${uid}/`;
     if(med_name)
       db_path_str += `${med_name}/`
