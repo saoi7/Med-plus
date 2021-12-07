@@ -13,6 +13,7 @@ function EditMedPage(props) {
         ...props.location.state,
         edit_page_flag: true,
         page_title: "Edit medication",
+        submit_button_text: "Apply changes",
         times_to_take: times_to_take_arr,
     };
     return (
