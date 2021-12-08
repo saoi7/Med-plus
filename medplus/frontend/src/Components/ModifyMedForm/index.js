@@ -13,6 +13,7 @@ class ModifyMedFormBase extends React.Component {
         this.state = {
             edit_page_flag: false,
             page_title: "",
+            submit_button_text: "",
             med_name: "",
             start_date: "",
             end_date: "",
@@ -124,7 +125,7 @@ class ModifyMedFormBase extends React.Component {
                     <Input labelText="Start Date" type="date" name="start_date" value={start_date} onChange={this.onChange} required />
                     <Input labelText="End Date" type="date" name="end_date" value={end_date} onChange={this.onChange} required />
                     { times_to_take_entries }
-                    <SubmitInput labelText="Submit new medication" />
+                    <SubmitInput labelText={this.state.submit_button_text} />
                 </form>
                 <NavBar />
             </div>

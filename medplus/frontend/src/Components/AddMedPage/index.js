@@ -9,10 +9,6 @@ import { useHistory } from 'react-router-dom';
 import { ImPlus, ImMinus } from 'react-icons/im';
 import ModifyMedForm from '../ModifyMedForm';
 
-// TODO split this into 2 components with 2 different routes?
-// one for adding a new medication and one for editing an existing medication
-// this component currently has 2 purposes depending on how its' configured (see componentDidMount())
-
 // TODO:
 // add validation for:
 // quantity must be > 0
@@ -23,6 +19,7 @@ function AddMedPage() {
     const initial_state = {
         edit_page_flag: false,
         page_title: "Add new medication",
+        submit_button_text: "Add medication",
         med_name: null,
         start_date: null,
         end_date: null,

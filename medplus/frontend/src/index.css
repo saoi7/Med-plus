@@ -125,7 +125,6 @@ code {
 
 .med-list-entry-box {
     display: flex;
-    background-color: rgb(144, 225, 251);
     border-radius: 10px;
     width: 300px;
     height: 80px;
@@ -159,11 +158,26 @@ code {
     margin-left: 10px;
 }
 
+.background-grey {
+    /* same color as nav-bar */
+    background-color: rgb(156, 156, 156);
+}
+
+.background-blue {
+    background-color: rgb(144, 225, 251);
+}
+
 /*******************************************************/
 
 .check-box {
     width: 20px;
     height: 20px;
+}
+
+.check-box {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
 /*******************************************************/
