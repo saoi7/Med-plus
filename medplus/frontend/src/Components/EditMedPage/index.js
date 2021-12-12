@@ -1,7 +1,10 @@
 import AddMedPage from "../AddMedPage";
+import { withFirebase } from "../Firebase";
 import ModifyMedForm from "../ModifyMedForm";
+import NavBar from "../NavBar";
+import { withRouter } from 'react-router-dom';
 
-function EditMedPage(props) {
+function EditMedPageBase(props) {
     let times_to_take_arr = Object.entries(props.location.state.times_to_take).map(entry => {
         let [time_to_take, quantity] = entry;
         return {
@@ -17,8 +20,15 @@ function EditMedPage(props) {
         times_to_take: times_to_take_arr,
     };
     return (
-        <ModifyMedForm initialState={initial_state} />
+        <div className="background-with-logo-image add-med-layout">
+            <div className="title font-large">
+                { initial_state.page_title }
+            </div>
+            <ModifyMedForm initialState={initial_state} />
+            <NavBar />
+        </div>
     );
 }
 
+const EditMedPage = withRouter(EditMedPageBase);
 export default EditMedPage;

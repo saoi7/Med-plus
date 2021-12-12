@@ -7,17 +7,26 @@ import NavBar from '../NavBar';
 import { withFirebase } from '../Firebase';
 import { withRouter } from 'react-router-dom';
 
+// TODO:
+// add validation for:
+// quantity must be > 0
+// end date must come after start date
+// name must not be empty
+
+const MAX_TIME_TO_TAKE_INPUTS = 4;
+
 class ModifyMedFormBase extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             edit_page_flag: false,
-            page_title: "",
             submit_button_text: "",
             med_name: "",
             start_date: "",
             end_date: "",
-            times_to_take: [],
+            times_to_take: [
+                { time_to_take: "", quantity: null }
+            ],
         };
     }
 
@@ -102,10 +111,10 @@ class ModifyMedFormBase extends React.Component {
             );
             if(index === this.state.times_to_take.length -1) {
                 add_new_time_input_button = (
-                    <ImPlus className="time-to-take-button" onClick={this.addTimeToTakeQuantityGroup} />
+                    <ImPlus className="time-to-take-button" onClick={this.addTimeToTakeQuantityGroup} data-testid="add-time-to-take-button" />
                 );
             }
-            if(index === this.state.times_to_take.length -1 && this.state.times_to_take.length === 4)
+            if(index === this.state.times_to_take.length -1 && this.state.times_to_take.length === MAX_TIME_TO_TAKE_INPUTS)
                 add_new_time_input_button = null;
             return (
                 <div className="med-list-time-to-take-quantity-group">
@@ -114,24 +123,22 @@ class ModifyMedFormBase extends React.Component {
                     { add_new_time_input_button }
                 </div>
             );
-        })
+        });
+
         return (
-            <div className="background-with-logo-image add-med-layout">
-                <div className="title font-large">
-                    { this.state.page_title }
-                </div>
-                <form className="add-med-form" onSubmit={this.onSubmit} >
-                    <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={on_change_name_input} required />
-                    <Input labelText="Start Date" type="date" name="start_date" value={start_date} onChange={this.onChange} required />
-                    <Input labelText="End Date" type="date" name="end_date" value={end_date} onChange={this.onChange} required />
-                    { times_to_take_entries }
-                    <SubmitInput labelText={this.state.submit_button_text} />
-                </form>
-                <NavBar />
-            </div>
+            <form className="add-med-form" onSubmit={this.onSubmit} >
+                <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={on_change_name_input} required />
+                <Input labelText="Start Date" type="date" name="start_date" value={start_date} onChange={this.onChange} required />
+                <Input labelText="End Date" type="date" name="end_date" value={end_date} onChange={this.onChange} required />
+                { times_to_take_entries }
+                <SubmitInput labelText={this.state.submit_button_text} />
+            </form>
         );
     }
 }
 
 const ModifyMedForm = withRouter(withFirebase(ModifyMedFormBase));
 export default ModifyMedForm;
+
+export { ModifyMedFormBase };
+export { MAX_TIME_TO_TAKE_INPUTS };

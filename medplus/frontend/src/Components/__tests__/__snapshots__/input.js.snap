@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`check no unintended changes have been made to rendered component 1`] = `
+<div
+  className="add-med-input font-small undefined"
+>
+  <label
+    className="left-padding"
+  >
+    undefined: 
+  </label>
+  <input
+    className="hidden-text-box left-padding font-small"
+  />
+</div>
+`;

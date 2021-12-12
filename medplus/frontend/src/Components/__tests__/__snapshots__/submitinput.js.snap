@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`check no unintended changes have been made to rendered component 1`] = `
+<div
+  className="add-med-input font-small"
+>
+  <input
+    className="hidden-submit-button font-small"
+    type="submit"
+  />
+</div>
+`;
