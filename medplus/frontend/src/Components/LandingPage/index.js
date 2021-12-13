@@ -7,10 +7,10 @@ function LandingPage() {
     return (
         <div className="background-image landing-layout">
             <div className="button-container flex-container flex-justify-content-space-around">
-                <Link to={ROUTES.SIGN_IN} className="link-button font-small">
+                <Link to={ROUTES.SIGN_IN} className="link-button background-blue font-small">
                     LOGIN
                 </Link>
-                <Link to={ROUTES.SIGN_UP} className="link-button font-small">
+                <Link to={ROUTES.SIGN_UP} className="link-button background-blue font-small">
                     REGISTER
                 </Link>
             </div>

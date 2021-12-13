@@ -55,7 +55,7 @@ class EditMedListBase extends React.Component {
 
 function EditMedItem(props) {
     return (
-        <div className="link-button edit-button font-small">
+        <div className="link-button background-blue edit-button font-small">
             { props.name }
         </div>
     );

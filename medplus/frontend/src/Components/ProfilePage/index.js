@@ -31,7 +31,7 @@ class ProfilePageForm extends React.Component {
 
     render() {
        return (
-            <form className="add-med-form">
+            <form className="add-med-form background-blue">
                 <Input labelText="Name" />
                 <Input labelText="Email" />
                 <Input labelText="Emergency Contact" />

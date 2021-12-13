@@ -6,7 +6,7 @@ import { withFirebase } from '../Firebase';
 
 function NavBar({ firebase }) {
     return (
-        <nav className="nav-bar">
+        <nav className="nav-bar background-grey">
             <Link to={ROUTES.LANDING} onClick={firebase.doSignOut} className="font-medium">
                 Sign Out
             </Link>

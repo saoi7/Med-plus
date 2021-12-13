@@ -19,7 +19,7 @@ function ManageMedsPageBase(){
             <EditMedList />
 
             <div className="add-new-button ">
-                <Link to={ROUTES.ADD_MED} className="link-button edit-button font-small">
+                <Link to={ROUTES.ADD_MED} className="link-button background-blue edit-button font-small">
                     <div>Add new</div>
                     <ImPlus />
                 </Link>
