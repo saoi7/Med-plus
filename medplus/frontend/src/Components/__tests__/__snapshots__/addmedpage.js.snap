@@ -1,0 +1,180 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test of AddMedPage 1`] = `
+<div
+  className="background-with-logo-image add-med-layout"
+>
+  <div
+    className="title font-large"
+  >
+    Add new medication
+  </div>
+  <form
+    className="add-med-form"
+    onSubmit={[Function]}
+  >
+    <div
+      className="add-med-input font-small undefined"
+    >
+      <label
+        className="left-padding"
+      >
+        Name: 
+      </label>
+      <input
+        className="hidden-text-box left-padding font-small"
+        name="med_name"
+        onChange={[Function]}
+        required={true}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="add-med-input font-small undefined"
+    >
+      <label
+        className="left-padding"
+      >
+        Start Date: 
+      </label>
+      <input
+        className="hidden-text-box left-padding font-small"
+        name="start_date"
+        onChange={[Function]}
+        required={true}
+        type="date"
+        value=""
+      />
+    </div>
+    <div
+      className="add-med-input font-small undefined"
+    >
+      <label
+        className="left-padding"
+      >
+        End Date: 
+      </label>
+      <input
+        className="hidden-text-box left-padding font-small"
+        name="end_date"
+        onChange={[Function]}
+        required={true}
+        type="date"
+        value=""
+      />
+    </div>
+    <div
+      className="med-list-time-to-take-quantity-group"
+    >
+      <div
+        className="add-med-input font-small undefined"
+      >
+        <label
+          className="left-padding"
+        >
+          Time To Take: 
+        </label>
+        <input
+          className="hidden-text-box left-padding font-small"
+          name="time_to_take"
+          onChange={[Function]}
+          required={true}
+          type="time"
+          value=""
+        />
+      </div>
+      <div
+        className="add-med-input font-small quantity-input"
+      >
+        <label
+          className="left-padding"
+        >
+          Quantity: 
+        </label>
+        <input
+          className="hidden-text-box left-padding font-small"
+          name="quantity"
+          onChange={[Function]}
+          required={true}
+          type="number"
+          value={null}
+        />
+      </div>
+      <svg
+        className="time-to-take-button"
+        data-testid="add-time-to-take-button"
+        fill="currentColor"
+        height="1em"
+        onClick={[Function]}
+        stroke="currentColor"
+        strokeWidth="0"
+        style={
+          Object {
+            "color": undefined,
+          }
+        }
+        version="1.1"
+        viewBox="0 0 16 16"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M15.5 6h-5.5v-5.5c0-0.276-0.224-0.5-0.5-0.5h-3c-0.276 0-0.5 0.224-0.5 0.5v5.5h-5.5c-0.276 0-0.5 0.224-0.5 0.5v3c0 0.276 0.224 0.5 0.5 0.5h5.5v5.5c0 0.276 0.224 0.5 0.5 0.5h3c0.276 0 0.5-0.224 0.5-0.5v-5.5h5.5c0.276 0 0.5-0.224 0.5-0.5v-3c0-0.276-0.224-0.5-0.5-0.5z"
+        />
+      </svg>
+    </div>
+    <div
+      className="add-med-input font-small"
+    >
+      <input
+        className="hidden-submit-button font-small"
+        type="submit"
+        value="Add medication"
+      />
+    </div>
+  </form>
+  <nav
+    className="nav-bar"
+  >
+    <a
+      className="font-medium"
+      href="/home"
+      onClick={[Function]}
+    >
+      Reminders
+    </a>
+    <a
+      className="font-medium"
+      href="/home"
+      onClick={[Function]}
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        stroke="currentColor"
+        strokeWidth="0"
+        style={
+          Object {
+            "color": undefined,
+          }
+        }
+        viewBox="0 0 20 20"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+        />
+      </svg>
+    </a>
+    <a
+      className="font-medium"
+      href="/account"
+      onClick={[Function]}
+    >
+      Profile
+    </a>
+  </nav>
+</div>
+`;

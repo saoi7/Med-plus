@@ -4,6 +4,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 import renderer from 'react-test-renderer';
 import { getByTestId, fireEvent } from '@testing-library/react';
+import { MOCK_FIREBASE_DB_REF_PROP } from './mock_firebase_props';
 
 // NOTE: you must provide an array as a 'history' prop
 // this normally comes from react router so we must provide a

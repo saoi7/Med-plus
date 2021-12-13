@@ -8,6 +8,7 @@ import {
     sort_meds_list_chronological_order
 } from '../HomePage';
 import { MOCK_DB_MED_ENTRIES } from './mock_db_med_entries';
+import { MOCK_FIREBASE_DB_REF_PROP, MOCK_FIREBASE_PROP } from './mock_firebase_props';
 import {test_dom_container} from '../../setupTests';
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
@@ -199,9 +200,6 @@ test("unit tests of sort_meds_list_chronological_order", () => {
     expect(MEDS[2].quantity).toBe('2');
 });
 
-const MOCK_FIREBASE_DB_REF_PROP = {
-    get: () => { return Promise.resolve({ val: MOCK_DB_MED_ENTRIES }); }
-};
 const MOCK_TAKEN_MEDS = {
     abc: {
         "05:00": "999"
@@ -211,39 +209,6 @@ const MOCK_TAKEN_MEDS = {
     },
     zzz: {
         "01:00": "3"
-    }
-};
-const MOCK_FIREBASE_PROP = {
-    currentUserUID: () => 123,
-    currentUser: () => {
-        return {
-            get: () => {
-                return Promise.resolve({ username: 'abc' });
-            }
-        };
-    },
-    getShareeOfRef: () => {
-        return {
-            get: () => {
-                // returning empty object since the feature that uses this obj ended up not getting fully implement
-                return Promise.resolve({});
-            }
-        }
-    },
-    TEST_schedules: () => MOCK_FIREBASE_DB_REF_PROP,
-    TEST_taken: (date_str) => {
-        return {
-            get: () => {
-                return Promise.resolve({ val: MOCK_TAKEN_MEDS });
-            },
-            child: (med_name) => {
-                return {
-                    update: () => {
-                        return Promise.resolve();
-                    }
-                }
-            }
-        }
     }
 };
 

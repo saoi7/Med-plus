@@ -3,14 +3,34 @@ import NavBar from '../NavBar';
 import Input from '../Input';
 import SubmitInput from '../SubmitInput';
 import { withAuthorization } from '../Session';
+import { withFirebase } from '../Firebase';
+import { withRouter, useHistory } from 'react-router-dom';
 
-// TODO code duplication from AddMedPage
-function ProfilePage() {
-    return (
-        <div className="background-with-logo-image add-med-layout">
-            <div className="title font-large">
-                My profile
+class ProfilePageBase extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="background-with-logo-image add-med-layout">
+                <div className="title font-large">
+                    My profile
+                </div>
+                <ProfilePageForm firebase={this.props.firebase}/>
+                <NavBar />
             </div>
+        );
+    }
+}
+
+class ProfilePageForm extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+       return (
             <form className="add-med-form">
                 <Input labelText="Name" />
                 <Input labelText="Email" />
@@ -18,28 +38,13 @@ function ProfilePage() {
                 <Input labelText="Password" />
                 <SubmitInput labelText="Submit user information" type="submit" />
             </form>
-            <NavBar />
-        </div>
-    );
+       );
+    }
 }
 
-// TODO firebase integration:
-/*
-import { PasswordForgetForm } from '../PasswordForget';
-import PasswordChangeForm from '../PasswordChange';
-import { AuthUserContext, withAuthorization } from '../Session';
-const AccountPage = () => (
-<AuthUserContext.Consumer>
-    {authUser => (
-      <div>
-        <h1>Account: {authUser.email}</h1>
-        <PasswordForgetForm />
-        <PasswordChangeForm />
-      </div>
-    )}
-  </AuthUserContext.Consumer>
-);
-*/
 
 const condition = authUser => !!authUser;
+const ProfilePage = withRouter(withFirebase(ProfilePageBase));
 export default withAuthorization(condition)(ProfilePage);
+
+export { ProfilePageForm, ProfilePageBase };

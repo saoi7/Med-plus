@@ -9,7 +9,7 @@ import { withRouter, useHistory } from 'react-router-dom';
 import { ImPlus, ImMinus } from 'react-icons/im';
 import ModifyMedForm from '../ModifyMedForm';
 
-function AddMedPageBase() {
+function AddMedPageBase(props) {
     const initial_state = {
         edit_page_flag: false,
         page_title: "Add new medication",
@@ -26,13 +26,15 @@ function AddMedPageBase() {
             <div className="title font-large">
                 { initial_state.page_title }
             </div>
-            <ModifyMedForm initialState={initial_state} />
+            <ModifyMedForm firebase={props.firebase} initialState={initial_state} />
             <NavBar />
         </div>
     );
 }
 
-const AddMedPage = withRouter(AddMedPageBase);
+const AddMedPage = withRouter(withFirebase(AddMedPageBase));
 
 const condition = authUser => !!authUser;
 export default withAuthorization(condition)(AddMedPage);
+
+export { AddMedPageBase };

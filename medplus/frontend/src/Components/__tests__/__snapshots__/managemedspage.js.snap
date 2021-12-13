@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot test of EditMedItem 1`] = `
+<div
+  className="link-button edit-button font-small"
+>
+  abcdefg
+</div>
+`;
+
+exports[`snapshot test of EditMedList 1`] = `
+<div
+  className="edit-container flex-container"
+>
+  loading...
+</div>
+`;

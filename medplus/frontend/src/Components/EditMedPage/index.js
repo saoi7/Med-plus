@@ -19,16 +19,19 @@ function EditMedPageBase(props) {
         submit_button_text: "Apply changes",
         times_to_take: times_to_take_arr,
     };
+    
     return (
         <div className="background-with-logo-image add-med-layout">
             <div className="title font-large">
                 { initial_state.page_title }
             </div>
-            <ModifyMedForm initialState={initial_state} />
+            <ModifyMedForm firebase={props.firebase} initialState={initial_state} />
             <NavBar />
         </div>
     );
 }
 
-const EditMedPage = withRouter(EditMedPageBase);
+const EditMedPage = withRouter(withFirebase(EditMedPageBase));
 export default EditMedPage;
+
+export { EditMedPageBase };

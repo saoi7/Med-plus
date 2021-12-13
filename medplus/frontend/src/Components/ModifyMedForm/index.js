@@ -137,7 +137,8 @@ class ModifyMedFormBase extends React.Component {
     }
 }
 
-const ModifyMedForm = withRouter(withFirebase(ModifyMedFormBase));
+//const ModifyMedForm = withRouter(withFirebase(ModifyMedFormBase));
+const ModifyMedForm = withRouter(ModifyMedFormBase);
 export default ModifyMedForm;
 
 export { ModifyMedFormBase };
