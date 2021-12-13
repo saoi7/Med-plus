@@ -152,6 +152,8 @@ code {
 .time-to-take-button {
     font-size: 50px;
     margin-left: 10px;
+
+    cursor: pointer;
 }
 
 .quantity-input {
@@ -317,6 +319,8 @@ code {
     border: hidden;
     background-color: rgb(209, 209, 209);
     border-radius: inherit;
+
+    cursor: pointer;
 }
 
 .hidden-text-box {
