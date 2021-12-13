@@ -109,13 +109,11 @@ class ModifyMedFormBase extends React.Component {
             let add_new_time_input_button = (
                 <ImMinus className="time-to-take-button" onClick={this.removeTimeToTakeQuantityGroup(index)} />
             );
-            if(index === this.state.times_to_take.length -1) {
+            if(index === this.state.times_to_take.length -1 && this.state.times_to_take.length !== MAX_TIME_TO_TAKE_INPUTS) {
                 add_new_time_input_button = (
                     <ImPlus className="time-to-take-button" onClick={this.addTimeToTakeQuantityGroup} data-testid="add-time-to-take-button" />
                 );
             }
-            if(index === this.state.times_to_take.length -1 && this.state.times_to_take.length === MAX_TIME_TO_TAKE_INPUTS)
-                add_new_time_input_button = null;
             return (
                 <div className="med-list-time-to-take-quantity-group">
                     <Input labelText="Time To Take" type="time" name={"time_to_take"} value={times_to_take_obj.time_to_take} onChange={this.handleTimeToTakeChange(index)} required />
