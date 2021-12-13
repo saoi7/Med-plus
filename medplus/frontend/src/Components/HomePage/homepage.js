@@ -78,7 +78,7 @@ class HomePageBase extends React.Component {
                 </div>
                 <MedList medListDBRef={current_med_list_ref}/>
                 <div className="button-container flex-container flex-justify-content-end">
-                    <Link to={ROUTES.MANAGE_MEDS} className="link-button background-blue font-small">
+                    <Link to={ROUTES.MANAGE_MEDS} className="link-button background-blue background-blue-hover font-small">
                         Edit your medication list
                     </Link>
                 </div>
@@ -97,11 +97,11 @@ function MedListSelection(props) {
             if(username === props.activeMedList)
             {
                 return (
-                    <button className="link-button background-blue" onClick={props.updateActiveMedList(username)}>{username}</button>
+                    <button className="link-button background-blue background-blue-hover" onClick={props.updateActiveMedList(username)}>{username}</button>
                 );
             }
             return (
-                <button className="link-button background-blue" onClick={props.updateActiveMedList(username)}>{username}</button>
+                <button className="link-button background-blue background-blue-hover" onClick={props.updateActiveMedList(username)}>{username}</button>
             );
         });
     }

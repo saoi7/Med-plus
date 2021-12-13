@@ -7,13 +7,13 @@ import { withFirebase } from '../Firebase';
 function NavBar({ firebase }) {
     return (
         <nav className="nav-bar background-grey">
-            <Link to={ROUTES.LANDING} onClick={firebase.doSignOut} className="font-medium">
+            <Link to={ROUTES.LANDING} onClick={firebase.doSignOut} className="nav-bar-button font-medium background-grey-hover">
                 Sign Out
             </Link>
-            <Link to={ROUTES.HOME} className="font-medium">
+            <Link to={ROUTES.HOME} className="nav-bar-button font-medium background-grey-hover">
                 <HiHome />
             </Link>
-            <Link to={ROUTES.ACCOUNT} className="font-medium">
+            <Link to={ROUTES.ACCOUNT} className="nav-bar-button font-medium background-grey-hover">
                 Profile
             </Link>
         </nav>

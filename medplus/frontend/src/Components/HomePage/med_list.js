@@ -115,7 +115,7 @@ class MedListBase extends React.Component {
 
 function MedListItem(props) {
     const { med_name, time_to_take, is_taken, quantity } = props.data;
-    const color_class_str = is_taken ? "background-grey" : "background-blue";
+    const color_class_str = is_taken ? "background-grey background-grey-hover" : "background-blue background-blue-hover";
     return (
         <div className="med-list-entry-container font-medium" key={med_name+time_to_take} >
             {time_to_take}

@@ -35,7 +35,7 @@ function EditMedPageBase(props) {
             </div>
             <ModifyMedForm firebase={props.firebase} initialState={initial_state} />
             <div className="delete-med-container">
-                <button onClick={deleteMed} className="link-button font-small background-red delete-med-button">
+                <button onClick={deleteMed} className="link-button font-small background-red background-red-hover delete-med-button">
                     Delete Med
                 </button>
             </div>
