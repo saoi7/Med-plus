@@ -52,7 +52,7 @@ class ModifyMedFormBase extends React.Component {
             times_to_take: modified_times_to_take
         });
 
-        // redirect to edit page
+        // redirect to manage meds page
         this.props.history.push(ROUTES.MANAGE_MEDS);
     };
 

@@ -167,6 +167,10 @@ code {
     background-color: rgb(144, 225, 251);
 }
 
+.background-red {
+    background-color: rgb(253, 78, 78);
+}
+
 /*******************************************************/
 
 .check-box {
@@ -193,6 +197,7 @@ code {
 
 /*******************************************************/
 
+/* TODO rename these, 'edit' refers to different page now */
 .edit-layout {
     display: grid;
     grid-template-areas: 
@@ -245,6 +250,28 @@ code {
     justify-content: space-around;
 }
 
+/*******************************************************/
+
+.edit-med-layout {
+    display: grid;
+    grid-template-areas: 
+    ".           .     .         .            ."
+    ".         title   .         .            ."
+    ".           .     .         .            ."
+    ".    add-med-form . delete-med-container ."
+    ".           .     .         .            ."
+    "nav-bar   nav-bar nav-bar  nav-bar  nav-bar ";
+    grid-template-columns: 10% 60% auto 15% auto;
+    grid-template-rows: 2.5% 10% auto 65% auto 60px;
+}
+
+.delete-med-container {
+    grid-area: delete-med-container;
+    display: flex;
+    align-items: end;
+}
+.delete-med-button {
+}
 /*******************************************************/
 
 .add-med-layout {
