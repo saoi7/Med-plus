@@ -79,7 +79,7 @@ class HomePageBase extends React.Component {
                 <MedList medListDBRef={current_med_list_ref}/>
                 <div className="button-container flex-container flex-justify-content-end">
                     <Link to={ROUTES.MANAGE_MEDS} className="link-button background-blue background-blue-hover font-small">
-                        Edit your medication list
+                        Edit medications
                     </Link>
                 </div>
                 <NavBar />

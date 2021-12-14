@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from '../NavBar';
-import { ImPlus } from 'react-icons/im';
+import { AiFillEdit } from 'react-icons/ai';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
@@ -47,7 +47,9 @@ class EditMedListBase extends React.Component {
         }
         return (
             <div className="edit-container flex-container">
-                { result }
+                <div className="med-list-item-flexbox flex-container flex-justify-content-space-between">
+                    { result }
+                </div>
             </div>
         );
     }
@@ -55,8 +57,9 @@ class EditMedListBase extends React.Component {
 
 function EditMedItem(props) {
     return (
-        <div className="link-button background-blue background-blue-hover edit-button font-small">
-            { props.name }
+        <div className="med-selection-button link-button background-blue background-blue-hover font-small">
+            <span className="med-selection-button-name" >{ props.name }</span>
+            <span className="med-selection-button-edit-icon" ><AiFillEdit /></span>
         </div>
     );
 }

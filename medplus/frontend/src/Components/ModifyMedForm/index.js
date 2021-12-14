@@ -123,9 +123,14 @@ class ModifyMedFormBase extends React.Component {
             );
         });
 
+        let name_input = ( <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={on_change_name_input} required /> );
+        if(this.state.edit_page_flag) {
+            name_input = null;
+        }
+
         return (
             <form className="add-med-form background-blue" onSubmit={this.onSubmit} >
-                <Input labelText="Name" type="text" name="med_name" value={med_name} onChange={on_change_name_input} required />
+                { name_input }
                 <Input labelText="Start Date" type="date" name="start_date" value={start_date} onChange={this.onChange} required />
                 <Input labelText="End Date" type="date" name="end_date" value={end_date} onChange={this.onChange} required />
                 { times_to_take_entries }
