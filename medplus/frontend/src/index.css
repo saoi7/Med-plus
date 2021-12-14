@@ -28,19 +28,32 @@ code {
     height: 100vh;
 }
 
+/*******************************************************/
+
 .landing-layout {
     display: grid;
     grid-template-areas:
-    " . . . "
+    " .         .        . "
+    " .   landing-title  . "
+    " .         .        . "
     " . button-container ."
-    " . . ." ;
-    grid-template-columns: auto, 50px, auto;
-    grid-template-rows: auto, 50%, auto;
+    " .         .        ." ;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: 10% 10% 10% 40% auto;
+}
+
+.landing-title {
+    grid-area: landing-title;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .button-container {
     grid-area: button-container;
 }
+
+/*******************************************************/
 
 .flex-container {
     display: flex;
