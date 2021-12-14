@@ -16,7 +16,7 @@ function EditMedPageBase(props) {
     const initial_state = {
         ...props.location.state,
         edit_page_flag: true,
-        page_title: `Edit medication: ${props.location.state.med_name}`,
+        page_title: `Edit Medication: ${props.location.state.med_name}`,
         submit_button_text: "Apply changes",
         times_to_take: times_to_take_arr,
     };

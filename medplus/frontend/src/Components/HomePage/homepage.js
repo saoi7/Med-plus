@@ -72,9 +72,8 @@ class HomePageBase extends React.Component {
         return (
             <div className='background-with-logo-image home-layout'>
                 <MedListSelection updateActiveMedList={this.updateActiveMedList} activeMedList={this.state.active_med_list} medListObjs={this.state.med_lists}/>
-                <div className="title">
-                    <div className="font-very-large">Med Reminder</div>
-                    <div className="font-large">Todays Meds:</div>
+                <div className="title font-very-large">
+                    Today's Medications
                 </div>
                 <MedList medListDBRef={current_med_list_ref}/>
                 <div className="button-container flex-container flex-justify-content-end">

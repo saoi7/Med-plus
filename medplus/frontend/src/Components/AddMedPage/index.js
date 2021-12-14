@@ -12,7 +12,7 @@ import ModifyMedForm from '../ModifyMedForm';
 function AddMedPageBase(props) {
     const initial_state = {
         edit_page_flag: false,
-        page_title: "Add new medication",
+        page_title: "Add New Medication",
         submit_button_text: "Add medication",
         med_name: "",
         start_date: "",

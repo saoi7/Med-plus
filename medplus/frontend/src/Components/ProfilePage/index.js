@@ -15,7 +15,7 @@ class ProfilePageBase extends React.Component {
         return (
             <div className="background-with-logo-image add-med-layout">
                 <div className="title font-large">
-                    My profile
+                    My Profile
                 </div>
                 <ProfilePageForm firebase={this.props.firebase}/>
                 <NavBar />
