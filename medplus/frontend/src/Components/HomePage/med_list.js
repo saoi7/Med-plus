@@ -120,11 +120,13 @@ function MedListItem(props) {
     const color_class_str = is_taken ? "background-grey background-grey-hover" : "background-blue background-blue-hover";
     return (
         <div className="med-list-entry-container font-medium" key={med_name+time_to_take} >
-            {time_to_take}
+            <span className="med-list-entry-time">{time_to_take}</span>
             <button className={"med-list-entry-box font-small " + color_class_str} onClick={props.onClick}>
-                <span>{med_name}</span>
-                <span>{"Qty: "+quantity}</span>
-                <input type="checkbox" value="" className="check-box" checked={is_taken} />
+                <span className="med-list-entry-name">{med_name}</span>
+                <span className="med-list-entry-quantity">{"Qty: "+quantity}</span>
+                <span className="med-list-entry-checkbox">
+                    <input type="checkbox" value="" className="check-box" checked={is_taken} />
+                </span>
             </button>
         </div>
     );

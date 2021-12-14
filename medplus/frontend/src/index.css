@@ -126,12 +126,15 @@ code {
     display: flex;
     align-items: center;
     justify-content: space-around;
+    width: 100%;
 }
 
+/*** INSIDE OF MED LIST ENTRY CONTAINER ***/
 .med-list-entry-box {
     display: flex;
     border-radius: 10px;
-    width: 300px;
+    /*width: 300px;*/
+    width: 80%;
     height: 80px;
     justify-content: space-evenly;
     align-items: center;
@@ -142,6 +145,28 @@ code {
 
     cursor: pointer;
 }
+.med-list-entry-time {
+    width: 20%;
+}
+/*********/
+
+/*** INSIDE OF MED LIST ENTRY BOX ***/
+.med-list-entry-name {
+    width: 50%;
+    margin-left: 5%;
+    text-align: left;
+    overflow: hidden;
+}
+.med-list-entry-quantity {
+    width: 28%;
+    text-align: left;
+    overflow: hidden;
+}
+.med-list-entry-checkbox {
+    width: 10%;
+    text-align: left;
+}
+/*********/
 
 .med-list-selection {
     grid-area: med-list-selection;
