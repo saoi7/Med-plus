@@ -12,7 +12,7 @@ import EditMedList, { EditMedListBase, EditMedItem } from './edit_med_list';
 function ManageMedsPageBase(){
     return (
         <div className='background-with-logo-image edit-layout'>
-            <div className="title font-large">
+            <div className="title font-very-large">
                 Medication List
             </div>
 
