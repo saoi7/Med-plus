@@ -117,7 +117,7 @@ class ModifyMedFormBase extends React.Component {
             return (
                 <div className="med-list-time-to-take-quantity-group">
                     <Input labelText="Time To Take" type="time" name={"time_to_take"} value={times_to_take_obj.time_to_take} onChange={this.handleTimeToTakeChange(index)} required />
-                    <Input className="quantity-input" labelText="Quantity" type="number" name={"quantity"} value={times_to_take_obj.quantity} onChange={this.handleQuantityChange(index)} required />
+                    <Input className="quantity-input" labelText="Quantity" type="number" name={"quantity"} value={times_to_take_obj.quantity} onChange={this.handleQuantityChange(index)} min="1" required />
                     { add_new_time_input_button }
                 </div>
             );

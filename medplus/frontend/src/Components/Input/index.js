@@ -12,6 +12,7 @@ function Input(props) {
                    onChange={props.onChange}
                    className="hidden-text-box left-padding font-small"
                    required={props.required}
+                   min={props.min}
             />
         </div>
     );
