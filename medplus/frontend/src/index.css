@@ -119,9 +119,9 @@ code {
         2.5% 
         0%     /* med-list-selection */
         0% 
-        20%     /* title */
+        10%     /* title */
         auto 
-        60%     /* med-list-container & button-container */
+        65%     /* med-list-container & button-container */
         auto 
         60px;   /* nav-bar */
 }
@@ -283,7 +283,7 @@ background-color: rgb(209, 209, 209);
     ".        .          .          .        ."
     "nav-bar  nav-bar  nav-bar  nav-bar  nav-bar";
     grid-template-columns: auto auto auto auto auto;
-    grid-template-rows: 2.5% 10% auto 72% auto 60px;
+    grid-template-rows: 2.5% 10% auto 65% auto 60px;
 }
 
 .edit-container {
@@ -342,7 +342,7 @@ background-color: rgb(209, 209, 209);
     ".    add-med-form   .   delete-med-container ."
     ".           .       .           .            ."
     "nav-bar   nav-bar   nav-bar   nav-bar   nav-bar";
-    grid-template-columns: auto 65% auto 20% auto;
+    grid-template-columns: auto 55% auto 250px auto;
     grid-template-rows: 2.5% 10% auto 72% auto 60px;
 }
 
@@ -365,7 +365,7 @@ background-color: rgb(209, 209, 209);
     ".    add-med-form    ."
     ".           .        ."
     "nav-bar  nav-bar  nav-bar";
-    grid-template-columns: auto 70% auto;
+    grid-template-columns: auto 55% auto;
     grid-template-rows: 2.5% 10% auto 72% auto 60px;
 }
 
