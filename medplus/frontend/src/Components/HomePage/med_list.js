@@ -106,8 +106,10 @@ class MedListBase extends React.Component {
             });
         }
         return (
-            <div className="med-list-container flex-container flex-justify-content-space-evenly">
-                { result }
+            <div className="med-list-container flex-container">
+                <div className="med-list-item-flexbox flex-container flex-justify-content-space-between">
+                    { result }
+                </div>
             </div>
         );
     }

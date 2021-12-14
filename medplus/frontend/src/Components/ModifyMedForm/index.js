@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 // end date must come after start date
 // name must not be empty
 
-const MAX_TIME_TO_TAKE_INPUTS = 4;
+const MAX_TIME_TO_TAKE_INPUTS = 3;
 
 class ModifyMedFormBase extends React.Component {
     constructor(props) {

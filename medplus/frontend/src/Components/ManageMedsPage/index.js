@@ -18,16 +18,22 @@ function ManageMedsPageBase(){
 
             <EditMedList />
 
-            <div className="add-new-button ">
-                <Link to={ROUTES.ADD_MED} className="link-button background-blue background-blue-hover edit-button font-small">
+            <div className="add-new-button flex-container flex-justify-content-end ">
+                <Link to={ROUTES.ADD_MED} className="link-button background-blue background-blue-hover font-small">
                     <div>Add new</div>
-                    <ImPlus />
                 </Link>
             </div>
             <NavBar />
         </div>
     );
 }
+
+/*
+<Link to={ROUTES.ADD_MED} className="link-button background-blue background-blue-hover edit-button font-small">
+    <div>Add new</div>
+    <ImPlus />
+</Link>
+*/
 
 const ManageMedsPage = withFirebase(ManageMedsPageBase);
 
