@@ -3,6 +3,7 @@ import { ImPlus } from 'react-icons/im';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { withAuthorization } from '../Session';
 import { withFirebase } from '../Firebase';
+import {withRouter} from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
 import { AiFillEdit } from 'react-icons/ai';
 
@@ -55,6 +56,22 @@ class EditPatientListBase extends React.Component {
         });
     }
 
+    onClick = (user_data) => (event) => {
+        event.preventDefault();
+
+        const username = user_data.patient_name;
+        const email = user_data.patient_email;
+        const password = user_data.patient_password;
+        this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+            .then(() => {
+                this.props.history.push('/home');//ROUTES.HOME);
+            })
+            .catch(err => {
+                window.alert(`failed to login as user: ${username}`);
+            });
+    }
+
     // TODO implement better views for loading and error conditions
     render() {
         //window.alert("hello");
@@ -70,9 +87,7 @@ class EditPatientListBase extends React.Component {
                 }
                 //window.alert(initial_state.patient_name);
                 return (
-                    <Link className="no-underline" to={{ pathname: ROUTES.SELECT_PATIENT, state: { email: patient_entry.patient_email, password: patient_entry.patient_password } }}>
-                        <EditPatientItem name={patient_entry.patient_name} />
-                    </Link>
+                        <EditPatientItem onClick={this.onClick(initial_state)} name={patient_entry.patient_name} />
                 );
             });
         }
@@ -88,7 +103,7 @@ class EditPatientListBase extends React.Component {
 
 function EditPatientItem(props) {
     return (
-        <div className="med-selection-button link-button background-blue background-blue-hover font-small">
+        <div onClick={props.onClick} className="med-selection-button link-button background-blue background-blue-hover font-small">
             <span className="med-selection-button-name" >{props.name}</span>
             <span className="med-selection-button-edit-icon" ><AiFillEdit /></span>
         </div>
@@ -96,7 +111,7 @@ function EditPatientItem(props) {
 }
 
 const ManagePatientPage = withFirebase(ManagePatientsPageBase);
-const EditPatientList = withFirebase(EditPatientListBase);
+const EditPatientList = withRouter(withFirebase(EditPatientListBase));
 
 const condition = authUser => !!authUser;
 export default withAuthorization(condition)(ManagePatientPage);
