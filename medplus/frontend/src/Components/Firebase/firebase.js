@@ -19,7 +19,7 @@ const config = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 */
- 
+
 class Firebase {
   constructor() {
     app.initializeApp(config);
@@ -27,21 +27,21 @@ class Firebase {
     this.db = app.database();
   }
 
-doCreateUserWithEmailAndPassword = (email, password) =>
+  doCreateUserWithEmailAndPassword = (email, password) =>
     this.auth.createUserWithEmailAndPassword(email, password);
 
-doSignInWithEmailAndPassword = (email, password) =>
+  doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
 
-doSignOut = () => this.auth.signOut();
+  doSignOut = () => this.auth.signOut();
 
-doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
- 
+  doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
+
   doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
 
   user = uid => this.db.ref(`users/${uid}`);
- 
+
   users = () => this.db.ref('users');
 
   currentUser = () => {
@@ -52,7 +52,7 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
   TEST_schedules = (med_name, uid = this.auth.currentUser.uid) => {
     let db_path_str = `TEST_schedules/${uid}/`;
-    if(med_name)
+    if (med_name)
       db_path_str += `${med_name}/`
     return this.db.ref(db_path_str);
   }
@@ -60,6 +60,13 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
   TEST_taken = (date_string) => {
     const uid = this.auth.currentUser.uid;
     return this.db.ref(`TEST_taken/${uid}/${date_string}/`);
+  }
+
+  patients = (patient_name, uid = this.auth.currentUser.uid) => {
+    let db_path_str = `patients/${uid}/`;
+    if (patient_name)
+      db_path_str += `${patient_name}/`
+    return this.db.ref(db_path_str);
   }
 
   // get firebase ref for this user's med list AND
@@ -76,5 +83,5 @@ doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
     return this.db.ref(`users/${uid}/sharee_of`);
   }
 }
- 
+
 export default Firebase;

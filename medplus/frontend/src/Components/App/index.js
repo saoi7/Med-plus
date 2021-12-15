@@ -1,6 +1,6 @@
 // created by Yi Song October 2021 
 // reference  https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
-// updated by
+// updated by Rory O'Hare 08/12/12
 
 import './App.css';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
@@ -15,6 +15,10 @@ import SignUpPage from '../SignUp';
 import PasswordForgetPage from '../PasswordForget';
 import AdminPage from '../Admin';
 import SignOutButton from '../SignOut';
+import DocSignIn from '../DoctorSignIn';
+import ManagePatientPage from '../DoctorHome';
+import AddPatientPage from '../AddPatient';
+import SelectPatientPage from '../SelectPatientPage';
 import * as ROUTES from '../../constants/routes';
 
 import { withAuthentication } from '../Session';
@@ -34,9 +38,13 @@ function App() {
             <Route path={ROUTES.MANAGE_MEDS} component={ManageMedsPage} />
             <Route path={ROUTES.ACCOUNT} component={ProfilePage} />
             <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
-            <Route path={ROUTES.ADMIN} component={AdminPage} /> 
+            <Route path={ROUTES.ADMIN} component={AdminPage} />
             <Route path={ROUTES.ADD_MED} component={AddMedPage} />
             <Route path={ROUTES.EDIT_MED} component={EditMedPage} />
+            <Route path={ROUTES.DOCTOR_SIGN_IN} component={DocSignIn} />
+            <Route path={ROUTES.DOCTOR_HOME} component={ManagePatientPage} />
+            <Route path={ROUTES.ADD_PATIENT} component={AddPatientPage} />
+            <Route path={ROUTES.SELECT_PATIENT} component={SelectPatientPage} />
         </Router>
     );
 }
