@@ -55,7 +55,7 @@ class ModifyPatientFormBase extends React.Component {
                 <form className="add-patient-form" onSubmit={this.onSubmit} >
                     <Input labelText="Name" type="text" name="patient_name" value={patient_name} onChange={on_change_name_input} required />
                     <Input labelText="E-Mail" type="text" name="patient_email" value={patient_email} onChange={on_change_name_input} required />
-                    <Input labelText="Password" type="text" name="patient_password" value={patient_password} onChange={on_change_name_input} required />
+                    <Input labelText="Password" type="password" name="patient_password" value={patient_password} onChange={on_change_name_input} required />
                     <SubmitInput labelText={this.state.submit_button_text} />
                 </form>
             </div>

@@ -55,7 +55,7 @@ class AdminPage extends Component {
           <Input labelText="Name" value={user.username}/>
           <Input labelText="Email" value={user.email} />
           <Input labelText="Emergency Contact" />
-          <Input labelText="Password" />
+          <Input type="password" labelText="Password" />
           <SubmitInput labelText="Submit user information" type="submit" />
       </form>
               
