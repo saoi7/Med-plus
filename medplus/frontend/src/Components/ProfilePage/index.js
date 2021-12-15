@@ -51,7 +51,7 @@ class AdminPage extends Component {
       {users.filter( function (user) {
             return user.uid === authUser.uid
           }).map(user => (
-            <form className="add-med-form">
+            <form className="add-med-form background-blue">
           <Input labelText="Name" value={user.username}/>
           <Input labelText="Email" value={user.email} />
           <Input labelText="Emergency Contact" />
