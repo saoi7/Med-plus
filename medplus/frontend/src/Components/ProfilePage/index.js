@@ -1,50 +1,74 @@
-import React from 'react';
+// updated by Yi Song 2021/12/15
+// get user info from firebase
+
+import React, { Component } from 'react';
+import {compose} from 'recompose';
+import { withFirebase } from '../Firebase';
+import { withAuthorization,withAuthUser } from '../Session';
 import NavBar from '../NavBar';
 import Input from '../Input';
 import SubmitInput from '../SubmitInput';
-import { withAuthorization } from '../Session';
-import { withFirebase } from '../Firebase';
-import { withRouter, useHistory } from 'react-router-dom';
+ 
+class AdminPage extends Component {
+  constructor(props) {
+    super(props);
+ 
+    this.state = {
+      loading: false,
+      users: [],
+    };
+  }
 
-class ProfilePageBase extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  componentWillUnmount() {
+    this.props.firebase.users().off();
+  }
+ 
+  componentDidMount() {
+    this.setState({ loading: true });
+ 
+    this.props.firebase.users().on('value', snapshot => {
+      const usersObject = snapshot.val();
+ 
+      const usersList = Object.keys(usersObject).map(key => ({
+        ...usersObject[key],
+        uid: key,
+      }));
+      this.setState({
+        users: usersList,
+        loading: false,
+      });
+    });
+  }
+ 
+  render() {
+    const { users, loading } = this.state;
+    const {authUser, firebase} = this.props;
+    return (
+      <div className="background-with-logo-image add-med-layout">
+      <div className="title font-large">
+          My profile
+      </div>
+      {users.filter( function (user) {
+            return user.uid === authUser.uid
+          }).map(user => (
+            <form className="add-med-form">
+          <Input labelText="Name" value={user.username}/>
+          <Input labelText="Email" value={user.email} />
+          <Input labelText="Emergency Contact" />
+          <Input labelText="Password" />
+          <SubmitInput labelText="Submit user information" type="submit" />
+      </form>
+              
+            ))}
 
-    render() {
-        return (
-            <div className="background-with-logo-image add-med-layout">
-                <div className="title font-large">
-                    My Profile
-                </div>
-                <ProfilePageForm firebase={this.props.firebase}/>
-                <NavBar />
-            </div>
-        );
-    }
+      <NavBar />
+      </div>   
+    );
+  }
 }
 
-class ProfilePageForm extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-       return (
-            <form className="add-med-form background-blue">
-                <Input labelText="Name" />
-                <Input labelText="Email" />
-                <Input labelText="Emergency Contact" />
-                <Input labelText="Password" />
-                <SubmitInput labelText="Submit user information" type="submit" />
-            </form>
-       );
-    }
-}
-
-
+ 
 const condition = authUser => !!authUser;
-const ProfilePage = withRouter(withFirebase(ProfilePageBase));
-export default withAuthorization(condition)(ProfilePage);
-
-export { ProfilePageForm, ProfilePageBase };
+ 
+export default compose(withAuthorization(condition),withAuthUser,withFirebase)(AdminPage);
+//export default withFirebase(AdminPage);

@@ -1,11 +1,14 @@
 // created by Yi Song October 2021 
 // reference https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
-// updated by 
+// updated by Yi Song 2021/12/15
 
 import React, { Component } from 'react';
 import {compose} from 'recompose';
 import { withFirebase } from '../Firebase';
 import { withAuthorization,withAuthUser } from '../Session';
+import NavBar from '../NavBar';
+import Input from '../Input';
+import SubmitInput from '../SubmitInput';
  
 class AdminPage extends Component {
   constructor(props) {
@@ -42,34 +45,29 @@ class AdminPage extends Component {
     const { users, loading } = this.state;
     const {authUser, firebase} = this.props;
     return (
-      <div>
-        <h1>Profile</h1>
-        {authUser.uid}
-       {loading && <div>Loading ...</div>}
- 
-        <UserList users={users} />
+      <div className="background-with-logo-image add-med-layout">
+      <div className="title font-large">
+          My profile
       </div>
+      {users.filter( function (user) {
+            return user.uid === authUser.uid
+          }).map(user => (
+            <form className="add-med-form">
+          <Input labelText="Name" value={user.username}/>
+          <Input labelText="Email" value={user.email} />
+          <Input labelText="Emergency Contact" />
+          <Input labelText="Password" />
+          <SubmitInput labelText="Submit user information" type="submit" />
+      </form>
+              
+            ))}
+
+      <NavBar />
+      </div>   
     );
   }
 }
 
-const UserList = ({ users }) => (
-  <ul>
-    {users.map(user => (
-      <li key={user.uid}>
-        <span>
-          <strong>ID:</strong> {user.uid}
-        </span>
-        <span>
-          <strong>E-Mail:</strong> {user.email}
-        </span>
-        <span>
-          <strong>Username:</strong> {user.username}
-        </span>
-      </li>
-    ))}
-  </ul>
-);
  
 const condition = authUser => !!authUser;
  
