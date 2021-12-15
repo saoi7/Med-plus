@@ -85,7 +85,7 @@ class ModifyMedFormBase extends React.Component {
     addTimeToTakeQuantityGroup = event => {
         let new_times_to_take = [
             ...this.state.times_to_take,
-            { time_to_take: "", quantity: null }
+            { time_to_take: "", quantity: "" }
         ];
         this.setState({
             times_to_take: new_times_to_take
